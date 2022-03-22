@@ -1,5 +1,6 @@
 import { Flex , Text} from "@chakra-ui/react";
 import { BsFillPersonFill } from  "react-icons/bs"
+import {Logo} from "./Logo" 
 
 export  function Header() {
     const logged = false
@@ -12,7 +13,7 @@ export  function Header() {
           p="0 10em"
           bg="#032233"
           >
-            <h1>CBank</h1>   
+            <Logo />   
             {logged ?
                  <p >Login</p> :  
                 <Flex
