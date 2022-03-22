@@ -1,9 +1,24 @@
 import { Button, Flex, Text } from '@chakra-ui/react'
 import { DiGithubBadge } from "react-icons/di"
+import axios, { AxiosPromise } from "axios"
+import { useEffect } from 'react'
+
+
+
 
 
 export default function Home() {
-  return (
+
+  useEffect( async function getApi():Promise<void>{
+     await axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=brl&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+      .then(res =>console.log(res))
+    
+    
+  }, [])
+  
+  
+  
+   return (
     <Flex
       flexDir="column"
       justify="center"
