@@ -25,12 +25,12 @@ export function SearchInput(){
            px='8'
            m="auto"
            mt="3em"
-           maxWidth={400}
+           w="50%"
            alignSelf="center"
            position="relative"
            borderRadius="full"
        >
-         <Icon as={BiSearch} color="black" fontSize='20' />
+         <Icon as={BiSearch} color="black" fontSize='25' />
             <Input
               variant="unstyled"
               px="4"
