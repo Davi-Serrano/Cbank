@@ -17,6 +17,17 @@ export default function HomeBroker({coins}: CoinProps){
     return(
         <Flex w="80%" bg="#2C2C2C" justify="center" m="auto" mt="5%">
             <SearchInput />
+             <Table>
+                    <Tbody>
+                        <Tr>
+                          <Td><Image src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579" />Bitcoin</Td>
+                          <Td>u$35.594,12</Td>
+                          <Td>6.85</Td>
+                          <Td>Buy</Td>
+                          <Td>Informations</Td>
+                        </Tr>
+                   </Tbody>
+            </Table>
             
         </Flex>
     )
