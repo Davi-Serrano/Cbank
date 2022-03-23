@@ -38,6 +38,7 @@ export default function HomeBroker({coins}:CoinsProps){
                         {coins.map(coin => {
                             return(
                                 <Tr
+                                    key={coin.id}
                                     color="black"
                                     fontWeight="bold"
                                     fontSize="20px"
