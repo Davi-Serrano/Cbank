@@ -13,6 +13,7 @@ interface CoinProps {
     name: string,
     image: string,
     total_volume: number,
+    price_change_percentage_24h: number,
     current_price: number,
 }
 interface CoinsProps {
@@ -54,7 +55,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                             <Flex align="center">
                                                 <Icon as={BsArrowUp} color="black" /> 
                                                 <Text>
-                                                    6.85
+                                                    {coin.price_change_percentage_24h}
                                                 </Text>
                                             </Flex>
                                         </Td>
@@ -95,6 +96,7 @@ export const getStaticProps: GetStaticProps = async ()=>{
             symbol: coin.symbol.toUpperCase(),
             image: coin.image,
             total_volume: coin.total_volume,
+            price_change_percentage_24h: coin.price_change_percentage_24h,
             current_price: new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: 'USD', 
@@ -105,7 +107,7 @@ export const getStaticProps: GetStaticProps = async ()=>{
       props:{
         coins
       },      
-      revalidate: 60 // 1min
+      revalidate: 60 * 60 * 24// 24hrs
     }
 
 }
