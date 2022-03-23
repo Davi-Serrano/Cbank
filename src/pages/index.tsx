@@ -9,6 +9,7 @@ export default function Home() {
       justify="center"
       align="center"
       bg="#032233"
+      fontWeight="bold"
       border="3px solid #707070"
       borderRadius="16px"
       w="35%"

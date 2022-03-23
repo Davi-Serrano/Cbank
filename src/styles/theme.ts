@@ -11,7 +11,10 @@ export const  theme = extendTheme({
                 bg: '#222222',
                 margin: 0,
                 color: 'gray.50',
-            }
+            },
+                tr:{
+                    padding: "5em"
+                },
         }
     }
 })
