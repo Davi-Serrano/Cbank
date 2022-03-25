@@ -1,20 +1,23 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
+import {useCoins} from "../context/coins"
 import { Flex, Icon, Input } from "@chakra-ui/react";
 import { BiSearch } from "react-icons/bi"
+import {api} from "../services/api"
 
-// import coins from "../services/api"
 
 export function SearchInput(){
    
-  // const [search,setSearch] = useState(coins)
+  const { setCoins }= useCoins()
 
-  //   const handleChange = (e)=>{
-  //       setSearch(e.target.value.toLowerCase())
-  //   }
+    const handleChange = (e:  React.FormEvent<HTMLInputElement>)=>{
+      
+      setCoins(e.currentTarget.value.toLowerCase())
 
-  // const showCoins = coins.filter(coin => 
-  //       coin.name.toLowerCase().includes(search)
-  // );
+      }
+     
+
+        
+   
 
     return(
         <Flex
@@ -36,9 +39,8 @@ export function SearchInput(){
               px="4"
               border="none"
               fontWeight="bold"
-              // onChange={handleChange}
+              onChange={handleChange}
               />
-
        </Flex>
     );
 }

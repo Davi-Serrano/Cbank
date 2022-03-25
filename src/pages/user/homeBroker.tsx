@@ -1,9 +1,11 @@
 import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon, Box, Grid } from "@chakra-ui/react"
 import {SearchInput} from "../../components/SearchInput"
-import axios from "axios"
+import { api } from "../../services/api"
 import { GetStaticProps } from 'next'
 import {BsArrowUp} from "react-icons/bs"
 import {FaRegMoneyBillAlt} from "react-icons/fa"
+import { useCoins }  from "../../context/coins"
+import { useEffect } from "react"
 
 
 
@@ -21,6 +23,16 @@ interface CoinsProps {
 }
 
 export default function HomeBroker({coins}:CoinsProps){
+    const { search, setCoins } = useCoins()
+    
+    useEffect( ()=>{
+         setCoins(coins)
+    }, [])
+
+    const filtredCoins = coins.filter( coin =>
+        coin.name.toLowerCase().includes(search))
+
+
     return(
         <Flex
             flexDir="column"
@@ -35,7 +47,7 @@ export default function HomeBroker({coins}:CoinsProps){
             <SearchInput />
             <Table w="80%" variant="unstyled" mt="3em">
                     <Tbody>
-                        {coins.map(coin => {
+                        {filtredCoins.map(coin => {
                             return(
                                 <Tr
                                     key={coin.id}
@@ -88,7 +100,7 @@ export default function HomeBroker({coins}:CoinsProps){
 
 export const getStaticProps: GetStaticProps = async ()=>{
 
-    const response = await axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+    const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
     
     const coins = response.data.map((coin: CoinProps) =>{
         return {
@@ -108,7 +120,7 @@ export const getStaticProps: GetStaticProps = async ()=>{
       props:{
         coins
       },      
-      revalidate: 60 * 60 * 24// 24hrs
+      revalidate: 10
     }
 
 }
