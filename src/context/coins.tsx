@@ -5,14 +5,14 @@ export const CoinsContext = createContext();
 export default function CoinsProvider({ children }){
 
 
-    const [ search, setCoins ] = useState([]);
+    const [ search, setSearch ] = useState([]);
 
     return(
 
         <CoinsContext.Provider
         value={{
             search,
-            setCoins
+            setSearch
         }}
         > 
             
@@ -25,7 +25,7 @@ export default function CoinsProvider({ children }){
 
 export function useCoins(){
     const context = useContext(CoinsContext)
-    const { search, setCoins }  = context ;
+    const { search, setSearch }  = context ;
 
-    return  { search, setCoins };
+    return  { search, setSearch };
 }

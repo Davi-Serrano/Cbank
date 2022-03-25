@@ -7,11 +7,11 @@ import {api} from "../services/api"
 
 export function SearchInput(){
    
-  const { setCoins }= useCoins()
+  const { setSearch }= useCoins()
 
     const handleChange = (e:  React.FormEvent<HTMLInputElement>)=>{
       
-      setCoins(e.currentTarget.value.toLowerCase())
+      setSearch(e.currentTarget.value.toLowerCase())
 
       }
      

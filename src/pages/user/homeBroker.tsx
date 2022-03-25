@@ -23,15 +23,15 @@ interface CoinsProps {
 }
 
 export default function HomeBroker({coins}:CoinsProps){
-    const { search, setCoins } = useCoins()
+    const { search, setSearch } = useCoins()
     
-    useEffect( ()=>{
-         setCoins(coins)
+    useEffect(()=>{
+        setSearch(coins)
     }, [])
+    
 
     const filtredCoins = coins.filter( coin =>
         coin.name.toLowerCase().includes(search))
-
 
     return(
         <Flex
@@ -63,7 +63,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                                 <Text pl="1em">{coin.name}</Text>
                                             </Flex>
                                         </Td  >
-                                        <Td w="100px" >{coin.current_price}</Td>
+                                        <Td w="100px" >U{coin.current_price}</Td>
                                         <Td w="50px" color="#1BAE2A">
                                             <Flex align="center">
                                                 <Icon as={BsArrowUp} color="black" /> 
