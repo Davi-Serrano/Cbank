@@ -1,6 +1,16 @@
 import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 
+interface CoinProps {
+    id: string,
+    symbol: string,
+    name: string,
+    image: string,
+    total_volume: number,
+    current_price: number,
+}
+
+
 const Chart = dynamic(()=> import("react-apexcharts"),{
   ssr: false
 })
@@ -55,7 +65,7 @@ const series = [
 ]
 
 
-export default function DataSCoin() {
+export default function DataSCoin({coinData}: CoinProps) {
   return(
   <SimpleGrid
       justifyItems="flex-start"
@@ -93,7 +103,7 @@ export default function DataSCoin() {
         <Box ml="5em" fontSize={25}> 
             <Flex align="center">
               <Text fontWeight="700">Volume :</Text>
-              <Text pl="1em">R$:1.000.000</Text>
+              <Text pl="1em"> {coinData.current_price}</Text>
             </Flex>
               
             <Flex>
@@ -120,4 +130,42 @@ export default function DataSCoin() {
       
   </SimpleGrid>
   )
+}
+
+export const getStaticProps: GetStaticProps = async ({ params})=>{
+
+    const date = new Date();
+    const day = String(data.getDate()).padStart(2, '0');
+    const month = String(data.getMonth() + 1).padStart(2, '0');
+    const year = data.getFullYear();
+    const today = day + '-' + month + '-' + year;
+    
+    const { slug } = params
+    
+    const { data } = await api.get(`/${slug}/history?date=${today}&localization=false`)
+   
+    function formatDolar(e) {
+      new Intl.NumberFormat('en-US',{
+              style: 'currency',
+              currency: 'USD', 
+            }).format(e)      
+
+    }
+
+    const coinData = response.data.map((coin: CoinProps) =>{
+        return {
+            id: coin.id,
+            name: coin.name,
+            symbol: coin.symbol.toUpperCase(),
+            image: coin.image.thumb,
+            total_volume: fortmatDolar(coin.market_data.total_volume.usd),
+            current_price: formatDolar(coin.market_data.current_price),
+        }
+    })
+
+    return {
+        props: {
+            coinDatas
+        }
+    }
 }
