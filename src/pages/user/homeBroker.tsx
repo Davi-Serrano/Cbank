@@ -84,12 +84,16 @@ export default function HomeBroker({coins}:CoinsProps){
                                             </Flex>
                                         </Td>
                                         <Td w="50px" >
-                                            <Flex align="center">
-                                                <Icon as={FaRegListAlt} color="black" /> 
-                                                <Text pl="0.2em">
-                                                    Informartions
-                                                </Text>
-                                            </Flex>
+                                            <Link key={post.slug} href={`/user/${post.id}`}>    
+                                                <a>
+                                                    <Flex align="center">
+                                                        <Icon as={FaRegListAlt} color="black" /> 
+                                                        <Text pl="0.2em">
+                                                            Informartions
+                                                        </Text>
+                                                    </Flex>
+                                                </a>
+                                            </Link> 
                                         </Td>
                                 </Tr>                            )
                         })}
