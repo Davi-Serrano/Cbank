@@ -1,11 +1,14 @@
-import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon, Box, Grid } from "@chakra-ui/react"
-import {SearchInput} from "../../components/SearchInput"
-import { api } from "../../services/api"
-import { GetStaticProps } from 'next'
-import {BsArrowUp} from "react-icons/bs"
-import {FaRegMoneyBillAlt} from "react-icons/fa"
 import { useCoins }  from "../../context/coins"
 import { useEffect } from "react"
+import { GetStaticProps } from 'next'
+
+import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
+import {BsArrowUp} from "react-icons/bs"
+import {FaRegListAlt, FaRegMoneyBillAlt} from "react-icons/fa"
+
+import {SearchInput} from "../../components/SearchInput"
+import { api } from "../../services/api"
+
 
 
 
@@ -82,7 +85,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                         </Td>
                                         <Td w="50px" >
                                             <Flex align="center">
-                                                <Icon as={BsArrowUp} color="black" /> 
+                                                <Icon as={FaRegListAlt} color="black" /> 
                                                 <Text pl="0.2em">
                                                     Informartions
                                                 </Text>
