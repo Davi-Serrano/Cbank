@@ -5,11 +5,9 @@ import { GetStaticProps } from 'next'
 import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
 import {BsArrowUp} from "react-icons/bs"
 import {FaRegListAlt, FaRegMoneyBillAlt} from "react-icons/fa"
-
+import Link from "next/link"
 import {SearchInput} from "../../components/SearchInput"
 import { api } from "../../services/api"
-
-
 
 
 interface CoinProps {
@@ -84,7 +82,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                             </Flex>
                                         </Td>
                                         <Td w="50px" >
-                                            <Link key={post.slug} href={`/user/${post.id}`}>    
+                                            <Link key={coin.id} href={`/user/${coin.id}`}>    
                                                 <a>
                                                     <Flex align="center">
                                                         <Icon as={FaRegListAlt} color="black" /> 

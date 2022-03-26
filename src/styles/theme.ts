@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme, textDecoration } from "@chakra-ui/react"
 
 export const  theme = extendTheme({
     fonts: {
@@ -7,14 +7,16 @@ export const  theme = extendTheme({
     },
     styles: {
         global : {
+            a:{
+                color: "black",
+                textDecoration: "none",
+            },
             body:{
                 bg: '#222222',
                 margin: 0,
                 color: 'gray.50',
+                
             },
-                tr:{
-                    padding: "5em"
-                },
         }
     }
 })
