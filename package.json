@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.6.0",
     "apexcharts": "^3.33.2",
     "axios": "^0.26.1",
+    "faunadb": "^4.5.2",
     "framer-motion": "^6.2.8",
     "next": "12.1.0",
     "next-auth": "^4.3.1",
