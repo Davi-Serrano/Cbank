@@ -2,10 +2,10 @@ import { useState, createContext, useContext} from "react"
 
 export const CoinsContext = createContext();
 
-export default function CoinsProvider({ children }){
+export default function CoinsProvider({ children } ){
 
 
-    const [ search, setSearch ] = useState([]);
+    const [ search, setSearch ] = useState("");
 
     return(
 

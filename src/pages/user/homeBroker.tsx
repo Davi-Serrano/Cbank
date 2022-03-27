@@ -24,12 +24,7 @@ interface CoinsProps {
 }
 
 export default function HomeBroker({coins}:CoinsProps){
-    const { search, setSearch } = useCoins()
-    
-    useEffect(()=>{
-        setSearch(coins)
-    }, [])
-    
+    const { search } = useCoins()
 
     const filtredCoins = coins.filter( coin =>
         coin.name.toLowerCase().includes(search))
@@ -106,7 +101,6 @@ export default function HomeBroker({coins}:CoinsProps){
 export const getStaticProps: GetStaticProps = async ()=>{
 
     const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
-    console.log(typeof response.data)
     
     const coins = response.data.map((coin: CoinProps) =>{
         return {
