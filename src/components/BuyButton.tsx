@@ -8,7 +8,7 @@ export function BuyButton(){
             onClick={()=>{alert("Hello Word")}}
             _hover={{
                 cursor: "pointer",
-                color: "#00552f"
+                color: "green"
             }}
         >
             <Icon as={FaRegMoneyBillAlt} /> 

@@ -96,7 +96,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                                       align="center"
                                                       _hover={{
                                                         cursor: "pointer",
-                                                        color: "#032233"
+                                                        color: "#07a5fa"
                                                     }}
                                                       >
                                                         <Icon as={FaRegListAlt} /> 
