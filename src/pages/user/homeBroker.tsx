@@ -1,14 +1,15 @@
 import { useCoins }  from "../../context/coins"
-import { useEffect } from "react"
 import { GetStaticProps } from 'next'
+import Link from "next/link"
 
 import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
-import {BsArrowUp} from "react-icons/bs"
-import {FaRegListAlt, FaRegMoneyBillAlt} from "react-icons/fa"
-import Link from "next/link"
-import {SearchInput} from "../../components/SearchInput"
-import { api } from "../../services/api"
+import {BsArrowUp, BsArrowDown} from "react-icons/bs"
+import {FaRegListAlt} from "react-icons/fa"
 
+import {SearchInput} from "../../components/SearchInput"
+import { BuyButton } from "../../components/BuyButton"
+
+import { api } from "../../services/api"
 
 interface CoinProps {
     id: string,
@@ -60,27 +61,45 @@ export default function HomeBroker({coins}:CoinsProps){
                                             </Flex>
                                         </Td  >
                                         <Td w="100px" >U{coin.current_price}</Td>
-                                        <Td w="50px" color="#1BAE2A">
-                                            <Flex align="center">
-                                                <Icon as={BsArrowUp} color="black" /> 
-                                                <Text>
-                                                    {coin.price_change_percentage_24h}
-                                                </Text>
-                                            </Flex>
-                                        </Td>
+                                        
+                                        
+                                                    {coin.price_change_percentage_24h > 0 ? 
+                                                    
+                                                        <Td w="50px" color="#1BAE2A">
+                                                        <Flex align="center">
+                                                            <Icon as={BsArrowUp}  /> 
+                                                                <Text>
+                                                                    {coin.price_change_percentage_24h}
+                                                                </Text>
+                                                            </Flex>
+                                                        </Td> 
+                                                        :
+                                                        <Td w="50px" color="red">
+                                                            <Flex align="center">
+                                                            <Icon as={BsArrowDown} rotate="180" /> 
+                                                                <Text>
+                                                                    {coin.price_change_percentage_24h}
+                                                                </Text>
+                                                            </Flex>
+                                                        </Td>
+
+                                                
+                                                }
+                                        
                                         <Td w="50px" >
-                                            <Flex align="center">
-                                                <Icon as={FaRegMoneyBillAlt} /> 
-                                                <Text pl="0.2em">
-                                                    Buy
-                                                </Text>
-                                            </Flex>
+                                                <BuyButton/>
                                         </Td>
                                         <Td w="50px" >
                                             <Link key={coin.id} href={`/user/${coin.id}`}>    
                                                 <a>
-                                                    <Flex align="center">
-                                                        <Icon as={FaRegListAlt} color="black" /> 
+                                                    <Flex
+                                                      align="center"
+                                                      _hover={{
+                                                        cursor: "pointer",
+                                                        color: "#032233"
+                                                    }}
+                                                      >
+                                                        <Icon as={FaRegListAlt} /> 
                                                         <Text pl="0.2em">
                                                             Informartions
                                                         </Text>
@@ -88,7 +107,8 @@ export default function HomeBroker({coins}:CoinsProps){
                                                 </a>
                                             </Link> 
                                         </Td>
-                                </Tr>                            )
+                                </Tr>
+                            )
                         })}
 
                 </Tbody>
@@ -109,7 +129,7 @@ export const getStaticProps: GetStaticProps = async ()=>{
             symbol: coin.symbol.toUpperCase(),
             image: coin.image,
             total_volume: coin.total_volume,
-            price_change_percentage_24h: coin.price_change_percentage_24h,
+            price_change_percentage_24h: coin.price_change_percentage_24h.toFixed(2),
             current_price: new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: 'USD', 
