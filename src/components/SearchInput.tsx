@@ -1,8 +1,6 @@
-import {useEffect, useState} from "react"
 import {useCoins} from "../context/coins"
 import { Flex, Icon, Input } from "@chakra-ui/react";
 import { BiSearch } from "react-icons/bi"
-import {api} from "../services/api"
 
 
 export function SearchInput(){
@@ -10,15 +8,9 @@ export function SearchInput(){
   const { setSearch }= useCoins()
 
     const handleChange = (e:  React.FormEvent<HTMLInputElement>)=>{
-      
       setSearch(e.currentTarget.value.toLowerCase())
-
-      }
+    }
      
-
-        
-   
-
     return(
         <Flex
            as='label'

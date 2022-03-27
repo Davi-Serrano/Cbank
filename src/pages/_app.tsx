@@ -4,14 +4,17 @@ import { ChakraProvider} from "@chakra-ui/react"
 import { theme } from '../styles/theme'
 import { Header } from '../components/Header'
 import CoinsProvider from "../context/coins"
+import {SessionProvider } from "next-auth/react"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider resetCSS={false} theme={theme}>
-      <CoinsProvider>
-        <Header />
-        <Component {...pageProps} />
-      </CoinsProvider>
+         <SessionProvider session={pageProps.session}>
+              <CoinsProvider>
+                  <Header />
+                  <Component {...pageProps} />
+                  </CoinsProvider>
+          </SessionProvider>
     </ChakraProvider>   
   )
 }

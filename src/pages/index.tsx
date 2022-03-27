@@ -1,7 +1,8 @@
-import { Button, Flex, Text } from '@chakra-ui/react'
-import { DiGithubBadge } from "react-icons/di"
+import {  Flex, Text } from '@chakra-ui/react'
+import { SingInButton } from '../components/SingInButton'
 
 export default function Home() {
+  
    return (
     <Flex
       flexDir="column"
@@ -24,33 +25,9 @@ export default function Home() {
         justify="space-around"
         align="flex-start"
         >
-        <Text fontSize={20} pl="2em">Register : </Text>
-        <Button
-          m="auto"
-          bg="#000000"
-          color="#999999"
-          border="none"
-          
-          >
-          <DiGithubBadge size={30}/> <Text pl="1em"> Register with Github </Text></Button>
-      </Flex>
-
-      <Flex
-        w='100%'
-        flexDir="column"
-        justify="space-around"
-        align="flex-start"
-        >
-        <Text fontSize={20} pl="2em">Login : </Text>
-        <Button
-          m="auto"
-          bg="#000000"
-          color="#999999"
-          border="none"
-          px="2em"
-          >
-          <DiGithubBadge size={30}/> <Text pl="1em">  Login with Github </Text></Button>
-      </Flex>
+          <Text fontSize={20} pl="2em">Login : </Text>
+          <SingInButton />
+        </Flex>
 
     </Flex>
   )
