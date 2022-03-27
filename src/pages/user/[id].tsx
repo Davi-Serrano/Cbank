@@ -1,24 +1,19 @@
-import { useRouter } from "next/router";
-import {GetServerSideProps } from "next"
-import dynamic from 'next/dynamic'
-
+// import dynamic from 'next/dynamic'
+import { GetServerSideProps } from "next"
 import { api } from '../../services/api';
 
-import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react'
-
-interface CoinsProps {
-    id: string,
-    symbol: string,
-    name: string,
-    image: string,
-    total_volume: number,
-    current_price: number,
-}
+import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react'
 
 interface CoinProps{
-  coinData:  Array<CoinsProps>
+  coin:{
+    id: string,
+    symbol: string,
+    image: string,
+    market_cap: number,
+    total_volume: number,
+    current_price: number,
+  }
 }
-
 
 // const Chart = dynamic(()=> import("react-apexcharts"),{
 //   ssr: false
@@ -73,19 +68,7 @@ interface CoinProps{
 //   {name: "serie1", data: [31,120,10,45],}
 // ]
 
-
-export default  function DataSCoin() {
-
-  const date = new Date();
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  const today = day + '-' + month + '-' + year;
-  
-  const router = useRouter()
-  console.log(router)
-  
-
+export default  function DataSCoin({coin}: CoinProps) {
 
   return(
   <SimpleGrid
@@ -112,43 +95,75 @@ export default  function DataSCoin() {
                 pl="3em"
                 >
 
-                  <img src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?" height='80px' width='80px' /> 
-                  <Text fontSize={25} px="0.2em">  
-                      <strong> Biticoin :</strong> R$360.000,00
+                  <img src={coin.image} height='80px' width='80px' /> 
+                  <Text fontSize={25} textTransform="capitalize"  px="0.2em">  
+                        <strong> {coin.id} :</strong> {coin.current_price}
                   </Text>
               </Flex>
                 
               {/* <Chart options={options} series={series} type="area" height={350} width={500} /> */}
         </Flex>
 
-        <Box ml="5em" fontSize={25}> 
+        <Box ml="5em" mt="1em" fontSize={20}> 
             <Flex align="center">
               <Text fontWeight="700">Volume :</Text>
-              <Text pl="1em"> 42.000,00</Text>
+              <Text pl="1em"> {coin.total_volume}</Text>
             </Flex>
               
             <Flex>
               <Text fontWeight="700">Preço :</Text>
-              <Text pl="1em">R$:1.000.000</Text>
+              <Text pl="1em">{coin.current_price}</Text>
             </Flex>
               
             <Flex align="center">
-              <Text fontWeight="700">Variação :</Text>
-              <Text pl="1em">5%</Text>
+              <Text fontWeight="700">MarketCap:</Text>
+              <Text pl="1em">{coin.market_cap}</Text>
             </Flex>
 
             <Flex align="center">
-              <Text fontWeight="700">Última Venda  :</Text>
-              <Text pl="1em">R$:1.000.000</Text>
-            </Flex>
-
-            <Flex align="center">
-              <Text fontWeight="700">Volume :</Text>
-              <Text pl="1em">R$:1.000.000</Text>
+              <Text fontWeight="700">Cod :</Text>
+              <Text pl="1em">{coin.symbol}</Text>
             </Flex>
         </Box>
 
       
   </SimpleGrid>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async({req, params})=>{
+        
+  const { id } = params
+
+  const date = new Date();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  const today = day + '-' + month + '-' + year;
+
+  const { data } = await api.get(`https://api.coingecko.com/api/v3/coins/${id}/history?date=${today}&localization=false`)
+  
+  const coin =  {
+        id: data.id,
+        symbol: data.symbol.toUpperCase(),
+        image: data.image.small,
+        current_price: new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD', 
+        }).format(data.market_data.current_price.usd),
+        total_volume: new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD', 
+        }).format(data.market_data.total_volume.usd),
+        market_cap: new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD', 
+        }).format(data.market_data.market_cap.usd),
+  }
+  
+  return{
+    props:{
+      coin
+    }
+  }
 }

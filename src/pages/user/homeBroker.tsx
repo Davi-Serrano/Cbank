@@ -106,6 +106,7 @@ export default function HomeBroker({coins}:CoinsProps){
 export const getStaticProps: GetStaticProps = async ()=>{
 
     const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+    console.log(typeof response.data)
     
     const coins = response.data.map((coin: CoinProps) =>{
         return {
