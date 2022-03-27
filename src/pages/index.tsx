@@ -1,6 +1,5 @@
 import { Button, Flex, Text } from '@chakra-ui/react'
 import { DiGithubBadge } from "react-icons/di"
-import axios from "axios"
 
 export default function Home() {
    return (
