@@ -1,11 +1,22 @@
-import { useState, createContext, useContext} from "react"
+import React, { useState, createContext, useContext, ReactNode} from "react"
 
-export const CoinsContext = createContext();
-
-export default function CoinsProvider({ children } ){
+export const CoinsContext = createContext({} as any);
 
 
-    const [ search, setSearch ] = useState("");
+ type SearchContextProps = {
+    search: string;
+    setSearch: (search: string) => void;
+}
+
+type ChildrenContextProps= {
+    children: {}
+}
+
+
+export default function CoinsProvider({ children }: ChildrenContextProps ){
+
+
+    const [ search, setSearch ] = useState<SearchContextProps>("");
 
     return(
 
@@ -13,9 +24,8 @@ export default function CoinsProvider({ children } ){
         value={{
             search,
             setSearch
-        }}
+        }}  
         > 
-            
             {children}    
         
          </CoinsContext.Provider>

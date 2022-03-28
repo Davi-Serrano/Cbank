@@ -1,11 +1,15 @@
 import { Flex, Text, Icon } from "@chakra-ui/react";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 
-export function BuyButton(){
+interface coinProps{
+    coinName: string,
+}
+
+export function BuyButton({coinName}: coinProps){
     return(
         <Flex  
             align="center"
-            onClick={()=>{alert("Hello Word")}}
+            onClick={()=>{alert(coinName)}}
             _hover={{
                 cursor: "pointer",
                 color: "green"
