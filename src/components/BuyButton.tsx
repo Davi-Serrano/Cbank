@@ -9,41 +9,20 @@ interface coinProps{
     coinName: string,
 }
 
-
+interface User{
+    user:{
+        ref:{
+            email: string
+        }
+    }
+}
 
 export function BuyButton({coinName}: coinProps){
     const {data: session}: any = useSession()
 
     
-    async function handleAddBitCoinOnBank(coin: string){
-
-            // const user = await fauna.query<User>(
-            //     q.Get(
-            //         q.Match(
-            //             q.Index("user_by_email"),
-            //             q.Casefold(session.user.name)
-            //             )
-            //         )
-            //     )
-                        
-           
-                await fauna.query(
-                    q.Update(
-                        q.Ref(q.Collection("users"), "daviscardoso2901@gmail.com"),
-                        {
-                            data: {
-                                coin_id: "bitcoin",
-                            }, 
-                        },
-                    )        
-                ).then((ret) => console.log(ret))
-                .catch((err) => console.error(
-                  'Error: [%s] %s: %s',
-                  err.name,
-                  err.message,
-                  err.errors()[0].description,
-                ))
-        
+     function handleAddBitCoinOnBank(coin: string){
+        alert(coin)
     }
     
     
