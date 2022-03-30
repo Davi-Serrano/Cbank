@@ -1,8 +1,10 @@
 import {  Flex, Text } from '@chakra-ui/react'
 import { SingInButton } from '../components/SingInButton'
-
+import { fauna } from '../services/fauna'
+import {query as q} from "faunadb"
+import { GetServerSideProps } from 'next/types'
 export default function Home() {
-  
+    
    return (
     <Flex
       flexDir="column"
@@ -33,3 +35,21 @@ export default function Home() {
   )
 }
 
+export const getServerSideProps: GetServerSideProps = async ()=>{
+   await fauna.query(
+    q.Update(
+      q.Ref(q.Collection("users"), "327505244514680899"),{
+        data:{
+          coin_id: ["shiba-inu", "bitcoin"]
+        },
+      },
+     )
+    )
+    
+  
+ 
+  return{
+    props:{
+    }
+  }
+}
