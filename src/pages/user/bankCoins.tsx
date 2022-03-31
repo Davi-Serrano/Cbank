@@ -73,3 +73,25 @@ export default function bankCoins (){
        </Flex>
     )
 }
+
+export const getServerSideProps: GetServerSideProps =  async ({req})=>{
+       const user = await fauna.query(
+          q.Get(
+              q.Match(
+                  q.Index('user_by_email'),
+                  q.Casefold(session.user.email)
+              )
+          )
+        )
+                                                        
+      const userCoins = await fauana.query(
+        q.Get(
+          q.Ref(q.Collection("users), user))
+        )
+      )
+        return:{
+              props:{
+                    userCoins
+              }        
+       }
+}
