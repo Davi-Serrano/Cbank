@@ -1,8 +1,13 @@
 import {Flex, Text, Icon, Image } from "@chakra-ui/react"
+import { GetServerSideProps } from "next"
 import { BsArrowUp } from "react-icons/bs"
 import { FaRegMoneyBillAlt } from "react-icons/fa"
+import { fauna } from "../../services/fauna"
+import { query as q } from "faunadb"
+import { getSession } from "next-auth/react"
 
-export default function bankCoins (){
+export default function bankCoins ({coins}:any){
+  
       return(
         <Flex
           justify="space-around"
@@ -15,17 +20,20 @@ export default function bankCoins (){
           py="2em"
           flexWrap="wrap"
          >
-            <Flex
+            {coins.map( coin =>
+              <Flex
+              key={coin}
               flexDir="column"
               p="1em"
               h="45%"
               bg="#222222"
+              borderRadius="16px"
             >
               <Text
                 as="h2"mb="-10px"
                 align="center"
               >
-                Bitcoin
+                {coin}
               </Text>
               <Flex>
                 
@@ -69,13 +77,17 @@ export default function bankCoins (){
                         </Text>
                     </Flex>
                 </Flex>
-            </Flex>                                      
+            </Flex>  
+              
+              )}                                    
        </Flex>
     )
 }
 
 export const getServerSideProps: GetServerSideProps =  async ({req})=>{
-       const user = await fauna.query(
+      
+  const session: any = await getSession({req})
+       const user = await fauna.query<any>(
           q.Get(
               q.Match(
                   q.Index('user_by_email'),
@@ -83,15 +95,11 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
               )
           )
         )
-                                                        
-      const userCoins = await fauana.query(
-        q.Get(
-          q.Ref(q.Collection("users), user))
-        )
-      )
-        return:{
+        const coins = user.data.coin_id
+
+        return{
               props:{
-                    userCoins
+                coins
               }        
        }
 }

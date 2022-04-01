@@ -1,6 +1,6 @@
 // import dynamic from 'next/dynamic'
 import { GetServerSideProps } from "next"
-import { api } from '../../services/api';
+import { api } from '../../../services/api';
 
 import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react'
 
