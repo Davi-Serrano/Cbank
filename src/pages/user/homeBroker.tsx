@@ -88,7 +88,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                                 }
                                         
                                         <Td w="50px" >
-                                                <BuyButton coinName={coin.id} />
+                                                <BuyButton name={coin.id} image={coin.image} current_price={coin.current_price} price_change_percentage_24h={coin.price_change_percentage_24h}     />
                                         </Td>
                                         <Td w="50px" >
                                             <Link key={coin.id} href={`/user/coin/${coin.id}`}>    

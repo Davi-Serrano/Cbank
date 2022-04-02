@@ -15,13 +15,14 @@ export default async(req: NextApiRequest, res: NextApiResponse)=> {
         //             )
         //         )
         //     )
+        console.log(req.body)
 
             await fauna.query(
                 q.Update(
                   q.Ref(q.Collection('users'), "327505244514680899"),
                   {
                       data:{
-                          coin_id: "ethreum",
+                          coin_id: [req.body],
                       }
                   }
                 )
