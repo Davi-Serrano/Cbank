@@ -16,15 +16,20 @@ export default async(req: NextApiRequest, res: NextApiResponse)=> {
                 )
             )
 
+            const coinArray = [...user.data.coin_id, req.body]
+
             await fauna.query(
                 q.Update(
                   q.Ref(q.Collection('users'), user.ref.id),
                   {
                       data:{
-                          coin_id: [req.body],
+                          coin_id: coinArray,
                       }
                   }
                 )
               )
+        
+              res.status(200).json("SUCcESS")
+
     } 
 }
