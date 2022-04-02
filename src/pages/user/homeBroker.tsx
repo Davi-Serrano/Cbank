@@ -91,7 +91,7 @@ export default function HomeBroker({coins}:CoinsProps){
                                                 <BuyButton coinName={coin.id} />
                                         </Td>
                                         <Td w="50px" >
-                                            <Link key={coin.id} href={`/user/${coin.id}`}>    
+                                            <Link key={coin.id} href={`/user/coin/${coin.id}`}>    
                                                 <a>
                                                     <Flex
                                                       align="center"

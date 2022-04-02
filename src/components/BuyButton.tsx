@@ -1,4 +1,5 @@
 import { Flex, Text, Icon } from "@chakra-ui/react";
+import axios from "axios";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 interface coinProps{
@@ -6,8 +7,9 @@ interface coinProps{
 }
 
 export function BuyButton({coinName}: coinProps){ 
-     function handleAddBitCoinOnBank(){
-        alert("coin")
+     async function handleAddBitCoinOnBank(){
+         await axios.post("/api/auth/subscribe")
+
     }
     
     
