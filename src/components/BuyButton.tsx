@@ -21,7 +21,7 @@ export function BuyButton({coinName}: coinProps){
     const {data: session}: any = useSession()
 
     
-     function handleAddBitCoinOnBank(coin: string){
+     function handleAddBitCoinOnBank(){
         alert(coin)
     }
     
@@ -29,7 +29,7 @@ export function BuyButton({coinName}: coinProps){
     return(
         <Flex  
             align="center"
-            onClick={()=>handleAddBitCoinOnBank(coinName)}
+            onClick={()=>handleAddBitCoinOnBank()}
             _hover={{
                 cursor: "pointer",
                 color: "green"

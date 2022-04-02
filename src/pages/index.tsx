@@ -37,10 +37,12 @@ export default function Home() {
 
 export const getServerSideProps: GetServerSideProps = async ()=>{
    await fauna.query(
-    q.Update(
-      q.Ref(q.Collection("users"), "327505244514680899"),{
-        data:{
-          coin_id: ["shiba-inu", "bitcoin"]
+    q.Insert(
+      q.Ref(q.Collection("users"), "327505244514680899"),
+      1,
+      "create",
+      {
+        data:{name: "oi"
         },
       },
      )
