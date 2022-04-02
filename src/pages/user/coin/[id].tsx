@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next"
 import { api } from '../../../services/api';
 
 import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react'
+import { getSession } from "next-auth/react";
 
 interface CoinProps{
   coin:{
@@ -138,6 +139,16 @@ export default  function DataSCoin({coin}: CoinProps) {
 
 
 export const getServerSideProps: GetServerSideProps = async({req, params})=>{
+  const session = await getSession({req})
+
+  if(!session){
+    return{
+      redirect:{
+        destination: "/",
+        permanent: false
+      }
+    }
+  }
 
   try {
           

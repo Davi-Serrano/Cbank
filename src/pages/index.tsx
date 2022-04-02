@@ -1,10 +1,12 @@
-import {  Flex, Text } from '@chakra-ui/react'
-import { SingInButton } from '../components/SingInButton'
-import { fauna } from '../services/fauna'
-import {query as q} from "faunadb"
 import { GetServerSideProps } from 'next/types'
+import { getSession, useSession } from 'next-auth/react'
+
+import {  Flex, Text } from '@chakra-ui/react'
+
+import { SingInButton } from '../components/SingInButton'
+
+
 export default function Home() {
-    
    return (
     <Flex
       flexDir="column"
@@ -35,19 +37,17 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ()=>{
-   await fauna.query(
-    q.Insert(
-      q.Ref(q.Collection("users"), "327505244514680899"),
-      1,
-      "create",
-      {
-        data:{name: "oi"
-        },
-      },
-     )
-    )
-    
+export const getServerSideProps: GetServerSideProps = async ({req})=>{
+  const session = await getSession({req})
+
+  if(session){
+    return{
+      redirect:{
+        destination: "/user/homeBroker",
+        permanent: false
+      }
+    }
+  }
   
  
   return{
@@ -55,3 +55,4 @@ export const getServerSideProps: GetServerSideProps = async ()=>{
     }
   }
 }
+

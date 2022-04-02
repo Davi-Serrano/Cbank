@@ -6,7 +6,7 @@ import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
 import { getSession } from "next-auth/react"
 
-export default function bankCoins ({coins}:any){
+export default function bankCoins (){
   
       return(
         <Flex
@@ -20,7 +20,7 @@ export default function bankCoins ({coins}:any){
           py="2em"
           flexWrap="wrap"
          >
-            {coins.map( coin =>
+            {/* {coins.map( coin =>
               <Flex
               key={coin}
               flexDir="column"
@@ -79,27 +79,36 @@ export default function bankCoins ({coins}:any){
                 </Flex>
             </Flex>  
               
-              )}                                    
+              )}                                     */}
        </Flex>
     )
 }
 
 export const getServerSideProps: GetServerSideProps =  async ({req})=>{
-      
-  const session: any = await getSession({req})
-       const user = await fauna.query<any>(
-          q.Get(
-              q.Match(
-                  q.Index('user_by_email'),
-                  q.Casefold(session.user.email)
-              )
-          )
-        )
-        const coins = user.data.coin_id
+  const session = await getSession({req})
 
-        return{
-              props:{
-                coins
-              }        
-       }
+  if(!session){
+    return{
+      redirect:{
+        destination: "/",
+        permanent: false
+      }
+    }
+  }
+
+  const user = await fauna.query<any>(
+    q.Get(
+        q.Match(
+            q.Index('user_by_email'),
+            q.Casefold(session.user.email)
+        )
+    )
+  )
+  const coins = user.data.coin_id
+
+  return{
+        props:{
+          
+        }        
+  }
 }

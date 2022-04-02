@@ -1,5 +1,5 @@
 import { useCoins }  from "../../context/coins"
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Link from "next/link"
 
 import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
@@ -10,6 +10,7 @@ import {SearchInput} from "../../components/SearchInput"
 import { BuyButton } from "../../components/BuyButton"
 
 import { api } from "../../services/api"
+import { getSession } from "next-auth/react"
 
 interface CoinProps {
     id: string,
@@ -118,7 +119,17 @@ export default function HomeBroker({coins}:CoinsProps){
 
 }
 
-export const getStaticProps: GetStaticProps = async ()=>{
+export const getServerSideProps: GetServerSideProps = async ({req})=>{
+    const session = await getSession({req})
+
+    if(!session){
+        return{
+          redirect:{
+            destination: "/",
+            permanent: false
+          }
+        }
+      }
 
     const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
     
@@ -139,8 +150,7 @@ export const getStaticProps: GetStaticProps = async ()=>{
     return {
       props:{
         coins
-      },      
-      revalidate: 10
+      }
     }
 
 }
