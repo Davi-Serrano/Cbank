@@ -1,12 +1,24 @@
 import {Flex, Text, Icon, Image } from "@chakra-ui/react"
 import { GetServerSideProps } from "next"
-import { BsArrowUp } from "react-icons/bs"
+import { BsArrowDown, BsArrowUp } from "react-icons/bs"
 import { FaRegMoneyBillAlt } from "react-icons/fa"
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
 import { getSession } from "next-auth/react"
 
-export default function bankCoins (){
+interface CoinProps{
+    name: string;
+    image: string;
+    current_price: number,
+    price_change_percentage_24h:number
+}
+
+interface CoinsProps {
+  coins: Array<CoinProps>;
+}
+
+
+export default function bankCoins ({coins}: CoinsProps){
   
       return(
         <Flex
@@ -20,11 +32,13 @@ export default function bankCoins (){
           py="2em"
           flexWrap="wrap"
          >
-            {/* {coins.map( coin =>
+            {coins.map(( coin: CoinProps) =>
               <Flex
-              key={coin}
+              key={coin.name}
               flexDir="column"
+              minW="20%"
               p="1em"
+              m="2em"
               h="45%"
               bg="#222222"
               borderRadius="16px"
@@ -33,25 +47,35 @@ export default function bankCoins (){
                 as="h2"mb="-10px"
                 align="center"
               >
-                {coin}
+                {coin.name}
               </Text>
               <Flex>
                 
-                    <Image src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579" mt="-30px" h="50px" w="50px" />
+                    <Image src={coin.image} mt="-30px" h="50px" w="50px" />
                 
-                    <Flex w="100%" justify="space-around">
-                      <Text color="green"><Icon as={BsArrowUp} color="white" /> 6.85</Text>
-                      <Text>U$42658,00</Text>
-                    </Flex>
+                    
+
+                    {coin.price_change_percentage_24h > 0 ?
+                      <Flex w="100%" justify="space-around">
+                          <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
+                          <Text>{coin.current_price}</Text> 
+                      </Flex>
+                        :
+                      <Flex w="100%" justify="space-around">
+                          <Text color="red"><Icon as={BsArrowDown} color="white" /> {coin.price_change_percentage_24h}</Text>
+                          <Text>{coin.current_price}</Text> 
+                      </Flex>
+                    }
+                    
               </Flex>
                     
               <Text>
-                  Valor da Compra: U$42558.85
+                  Valor da Compra: {coin.current_price}
               </Text>
                         
               <Flex justify="space-around">
                   <Text>
-                      Quantidade:2
+                      Quantidade:1
                   </Text>
 
                   <Flex w="100%" justify="space-around">      
@@ -73,19 +97,19 @@ export default function bankCoins (){
                           Total:
                         </Text>       
                         <Text color="green"> 
-                            U$35.251,00
+                            {coin.current_price}
                         </Text>
                     </Flex>
                 </Flex>
             </Flex>  
               
-              )}                                     */}
+              )}                                    
        </Flex>
     )
 }
 
 export const getServerSideProps: GetServerSideProps =  async ({req})=>{
-  const session = await getSession({req})
+  const session:any = await getSession({req})
 
   if(!session){
     return{
@@ -108,7 +132,7 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
 
   return{
         props:{
-          
+          coins
         }        
   }
 }
