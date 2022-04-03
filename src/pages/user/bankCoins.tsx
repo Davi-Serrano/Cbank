@@ -119,7 +119,6 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
       }
     }
   }
-
   const user = await fauna.query<any>(
     q.Get(
         q.Match(
@@ -128,11 +127,24 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
         )
     )
   )
-  const coins = user.data.coin_id
+
+
+  if(user.data.coin_id){
+
+    const coins = user.data.coin_id
+    
+    return{
+      props:{
+        coins
+      }        
+    }
+  }
 
   return{
-        props:{
-          coins
-        }        
+    redirect:{
+      destination: "/user/homeBroker",
+      permanent: false
+    }
   }
+
 }
