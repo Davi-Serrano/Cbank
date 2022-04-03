@@ -11,6 +11,7 @@ interface CoinProps{
     image: string;
     current_price: number,
     price_change_percentage_24h:number
+    totalValue: number
 }
 
 interface CoinsProps {
@@ -18,7 +19,7 @@ interface CoinsProps {
 }
 
 
-export default function bankCoins ({coins}: CoinsProps){
+export default function bankCoins ({coins, totalValue}: CoinsProps){
   
       return(
         <Flex
@@ -32,6 +33,7 @@ export default function bankCoins ({coins}: CoinsProps){
           py="2em"
           flexWrap="wrap"
          >
+           <Text>U${totalValue}</Text>
             {coins.map(( coin: CoinProps) =>
               <Flex
               key={coin.name}
@@ -133,9 +135,22 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
 
     const coins = user.data.coin_id
     
+    const coinsPrice = coins.map((a: any)=>{
+      const formtatSintd = a.current_price.replace("$", "").replace(",", ".")
+      return parseFloat(formtatSintd)
+    })
+
+    const totalValue = coinsPrice.reduce((a: number, b: number)=>{
+       const total = a + b
+       return total.toFixed(3)
+    })
+
+    
+    
     return{
       props:{
-        coins
+        coins,
+        totalValue
       }        
     }
   }
