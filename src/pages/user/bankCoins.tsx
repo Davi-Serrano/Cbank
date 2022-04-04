@@ -1,7 +1,11 @@
-import {Flex, Text, Icon, Image } from "@chakra-ui/react"
 import { GetServerSideProps } from "next"
+
+import { Flex, Text, Icon, Image } from "@chakra-ui/react"
+import { MdAttachMoney } from "react-icons/md"
 import { BsArrowDown, BsArrowUp } from "react-icons/bs"
 import { FaRegMoneyBillAlt } from "react-icons/fa"
+
+
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
 import { getSession } from "next-auth/react"
@@ -32,8 +36,9 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
           mt="2em"
           py="2em"
           flexWrap="wrap"
+          zIndex="-1"
          >
-           <Text>U${totalValue}</Text>
+                    
             {coins.map(( coin: CoinProps) =>
               <Flex
               key={coin.name}
@@ -105,7 +110,27 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
                 </Flex>
             </Flex>  
               
-              )}                                    
+              )}           
+
+              <Flex
+            align="center"
+            fontSize="20px"
+            >
+
+            <Text>
+              Amount :
+            </Text>
+              <Icon
+                as={MdAttachMoney}
+                p="5px" 
+              />
+
+            <Text>
+              {totalValue}
+            </Text>
+
+          </Flex> 
+                         
        </Flex>
     )
 }
@@ -142,7 +167,7 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
 
     const totalValue = coinsPrice.reduce((a: number, b: number)=>{
        const total = a + b
-       return total.toFixed(3)
+       return total
     })
 
     
