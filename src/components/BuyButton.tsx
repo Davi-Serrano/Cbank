@@ -19,7 +19,7 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
     }
 
      async function handleCoinOnBank(coin: CoinProps){
-        const response = await axios.post("/api/auth/subscribe", coin)
+        const response = await axios.post("/api/auth/create", coin)
 
     }
     
