@@ -50,30 +50,25 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
               bg="#222222"
               borderRadius="16px"
             >
-              <Text
-                as="h2"mb="-10px"
-                align="center"
-              >
-                {coin.name}
-              </Text>
-              <Flex>
-                
-                    <Image src={coin.image} mt="-30px" h="50px" w="50px" />
-                
-                    
-
-                    {coin.price_change_percentage_24h > 0 ?
-                      <Flex w="100%" justify="space-around">
-                          <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
-                          <Text>{coin.current_price}</Text> 
-                      </Flex>
-                        :
-                      <Flex w="100%" justify="space-around">
-                          <Text color="red"><Icon as={BsArrowDown} color="white" /> {coin.price_change_percentage_24h}</Text>
-                          <Text>{coin.current_price}</Text> 
-                      </Flex>
-                    }
-                    
+                <Text
+                  as="h2"mb="-10px"
+                  align="center"
+                >
+                  <Image src={coin.image} px="15px" h="50px" w="50px" />
+                  {coin.name}
+                </Text>
+              <Flex >
+                  {coin.price_change_percentage_24h > 0 ?
+                    <Flex w="100%"  justify="space-around">
+                        <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
+                        <Text>{coin.current_price}</Text> 
+                    </Flex>
+                      :
+                    <Flex w="100%" justify="space-around">
+                        <Text color="red"><Icon as={BsArrowDown} color="white" /> {coin.price_change_percentage_24h}</Text>
+                        <Text>{coin.current_price}</Text> 
+                    </Flex>
+                  }
               </Flex>
                     
               <Text>
