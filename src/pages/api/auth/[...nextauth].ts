@@ -4,6 +4,13 @@ import GithubProvider from "next-auth/providers/github"
 import { query as q } from "faunadb"
 import { fauna } from "../../../services/fauna"
 
+interface User {
+  user:{
+    email: string
+  }
+  
+}
+
 export default NextAuth({
   providers: [
     GithubProvider({
@@ -17,17 +24,17 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({user, account}){
-      const { email } = user
+    async signIn({user}: User){
+      const  { email } = user
     
         try{
-          await fauna.query(
+          await fauna.query<User>(
             q.If(
               q.Not(
                 q.Exists(
                   q.Match(
                     q.Index("user_by_email"),
-                    q.Casefold(user.email)
+                    q.Casefold(user.email) 
                   )
                 )
               ),
@@ -42,7 +49,7 @@ export default NextAuth({
                 )
               )
             )
-        )
+        ) 
           return true
         }catch{
           return false

@@ -10,7 +10,6 @@ interface CoinProps {
 }
 
 export function BuyButton({name, image, current_price, price_change_percentage_24h}: CoinProps){ 
-
     const coin = {
         name,
         image,
@@ -22,7 +21,6 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
         const response = await axios.post("/api/auth/create", coin)
 
     }
-    
     
     return(
         <Flex  
