@@ -15,11 +15,11 @@ interface CoinProps{
     image: string;
     current_price: number,
     price_change_percentage_24h:number
-    totalValue: number
-}
-
+  }
+  
 interface CoinsProps {
   coins: Array<CoinProps>;
+  totalValue: number;
 }
 
 
