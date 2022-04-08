@@ -9,22 +9,28 @@ import { FaRegMoneyBillAlt } from "react-icons/fa"
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
 import { getSession } from "next-auth/react"
+import axios from "axios"
 
 interface CoinProps{
     name: string;
     image: string;
     current_price: number,
-    price_change_percentage_24h:number
+    price_change_percentage_24h:number 
   }
   
 interface CoinsProps {
-  coins: Array<CoinProps>;
-  totalValue: number;
+  coins: CoinProps[];
+  totalValue: number; 
 }
 
-
 export default function bankCoins ({coins, totalValue}: CoinsProps){
-  
+ 
+   async function handleDeleteCoin(name:string){
+      const response = await axios.post("/api/auth/coins", {name})
+   
+    }
+
+
       return(
         <Flex
           justify="space-around"
@@ -54,7 +60,7 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
                   as="h2"mb="-10px"
                   align="center"
                 >
-                  <Image src={coin.image} px="15px" h="50px" w="50px" />
+                  <Image src={coin.image} px="15px" h="50px" w="50px" alt="Coin icon" />
                   {coin.name}
                 </Text>
               <Flex >
@@ -72,22 +78,32 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
               </Flex>
                     
               <Text>
-                  Valor da Compra: {coin.current_price}
+                  Buy Value: {coin.current_price}
               </Text>
                         
               <Flex justify="space-around">
                   <Text>
-                      Quantidade:1
+                      Quantify:1
                   </Text>
 
                   <Flex w="100%" justify="space-around">      
-                      <Flex  align="center">
+                      <Flex
+                        align="center"
+                        _hover={{
+                          cursor: "pointer"
+                        }}
+                        >
                           <Icon color="green" as={FaRegMoneyBillAlt} /> 
                           Buy
                       </Flex>
                       
-                      <Flex    align="center">
-                          <Icon color="red" as={FaRegMoneyBillAlt} /> 
+                      <Flex
+                        align="center"
+                        _hover={{
+                          cursor: "pointer"
+                        }}
+                        >
+                          <Icon color="red" as={FaRegMoneyBillAlt} onClick={()=>handleDeleteCoin(coin.name) }/> 
                           Sell
                       </Flex>
                   </Flex>
@@ -96,7 +112,7 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
                 <Flex  justify="center">
                     <Flex align="center">
                         <Text>
-                          Total:
+                          Amount:
                         </Text>       
                         <Text color="green"> 
                             {coin.current_price}
@@ -151,7 +167,7 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
   )
 
 
-  if(user.data.coin_id){
+  if(user.data.coin_id | user.data.coin_id.length > 0 ){
 
     const coins = user.data.coin_id
     

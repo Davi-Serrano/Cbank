@@ -2,9 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react"
 import { query as q} from "faunadb"
 import { fauna } from "../../../services/fauna";
-interface CoinsFiltredProps {
- name: string;
-};
 
 interface SessionProps{
     user:{
@@ -12,7 +9,9 @@ interface SessionProps{
     };
 };
 
-
+interface CoinProps {
+ name: string;
+};
 
 interface User{
     email: string;
@@ -20,7 +19,7 @@ interface User{
         id:string;
     };
     data:{
-        coin_id:[];
+        coin_id:CoinProps[];
     };
 };
 
@@ -32,7 +31,7 @@ export default async(req: NextApiRequest, res: NextApiResponse)=> {
                 q.Get(
                     q.Match(
                         q.Index('user_by_email'),
-                        q.Casefold(session?.user?.email)
+                        q.Casefold(session.user.email)
                     )
                 )
             ) 
@@ -51,28 +50,31 @@ export default async(req: NextApiRequest, res: NextApiResponse)=> {
         
             res.status(200).json("SUCCESS")
         } else{
-            const coinsAlreadyExistis = user.data.coin_id.filter((coin: CoinsFiltredProps )=>{
-                return coin.name == req.body.name
-            })
+            const { name } = req.body
+            const coinAlreadyExistis = user.data.coin_id.find( coin => coin.name === name )
             
+            console.log(coinAlreadyExistis)
+            if(coinAlreadyExistis){
+                 res.status(400).json("Coin already exists")
+            } else{
 
-            if(coinsAlreadyExistis.length === 0){
+                
                 const coinArray = [...user.data.coin_id, req.body]
-
-                await fauna.query(
-                    q.Update(
-                    q.Ref(q.Collection('users'), user.ref.id),
-                    {
-                        data:{
-                            coin_id: coinArray,
-                        }
+                
+            await fauna.query(
+                q.Update(
+                q.Ref(q.Collection('users'), user.ref.id),
+                {
+                    data:{
+                        coin_id: coinArray,
                     }
-                    )
+                }
                 )
+                )
+                
+                return res.status(200).json("Coin created")
+            }
             
-                res.status(200).json("SUCCESS")
-            } 
-        
         }   
             
     } 
