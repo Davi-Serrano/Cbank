@@ -1,16 +1,13 @@
-import { useCoins }  from "../../context/coins"
 import { GetServerSideProps } from 'next'
-import Link from "next/link"
+import { useCoins }  from "../../context/coins"
+import { getSession } from "next-auth/react"
+import { api } from "../../services/api"
 
-import  {Flex, Table, Tbody, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
-import {BsArrowUp, BsArrowDown} from "react-icons/bs"
-import {FaRegListAlt} from "react-icons/fa"
+
+import  {Flex, Table, Tbody} from "@chakra-ui/react"
 
 import {SearchInput} from "../../components/SearchInput"
-import { BuyButton } from "../../components/BuyButton"
-
-import { api } from "../../services/api"
-import { getSession } from "next-auth/react"
+import { TableCoin } from "../../components/TableCoins"
 
 interface CoinProps {
     id: string,
@@ -47,69 +44,8 @@ export default function HomeBroker({coins}:CoinsProps){
                     <Tbody>
                         {filtredCoins.map(coin => {
                             return(
-                                <Tr
-                                    key={coin.id}
-                                    color="black"
-                                    fontWeight="bold"
-                                    fontSize="20px"
-                                    bg="#C4C4C4"
-                                    borderBottom="9px solid #2C2C2C"
-                                >
-                                        <Td>
-                                            <Flex align="center">
-                                                <Image src={coin.image} w="50px" />
-                                                <Text pl="1em">{coin.name}</Text>
-                                            </Flex>
-                                        </Td  >
-                                        <Td w="100px" >U{coin.current_price}</Td>
-                                        
-                                        
-                                                    {coin.price_change_percentage_24h > 0 ? 
-                                                    
-                                                        <Td w="50px" color="#1BAE2A">
-                                                        <Flex align="center">
-                                                            <Icon as={BsArrowUp}  /> 
-                                                                <Text>
-                                                                    {coin.price_change_percentage_24h}
-                                                                </Text>
-                                                            </Flex>
-                                                        </Td> 
-                                                        :
-                                                        <Td w="50px" color="red">
-                                                            <Flex align="center">
-                                                            <Icon as={BsArrowDown} rotate="180" /> 
-                                                                <Text>
-                                                                    {coin.price_change_percentage_24h}
-                                                                </Text>
-                                                            </Flex>
-                                                        </Td>
-
-                                                
-                                                }
-                                        
-                                        <Td w="50px" >
-                                                <BuyButton name={coin.id} image={coin.image} current_price={coin.current_price} price_change_percentage_24h={coin.price_change_percentage_24h}     />
-                                        </Td>
-                                        <Td w="50px" >
-                                            <Link key={coin.id} href={`/user/coin/${coin.id}`}>    
-                                                <a>
-                                                    <Flex
-                                                      align="center"
-                                                      _hover={{
-                                                        cursor: "pointer",
-                                                        color: "#07a5fa"
-                                                    }}
-                                                      >
-                                                        <Icon as={FaRegListAlt} /> 
-                                                        <Text pl="0.2em">
-                                                            Informartions
-                                                        </Text>
-                                                    </Flex>
-                                                </a>
-                                            </Link> 
-                                        </Td>
-                                </Tr>
-                            )
+                                <TableCoin id={coin.id} name={coin.name} symbol={coin.symbol} current_price={coin.current_price} total_volume={coin.total_volume} price_change_percentage_24h={coin.price_change_percentage_24h} image={coin.image}  />
+                                )
                         })}
 
                 </Tbody>
