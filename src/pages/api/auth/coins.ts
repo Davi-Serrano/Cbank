@@ -13,7 +13,6 @@ interface SessionProps{
     };
 };
 
-
 interface User{
     email: string;
     ref: {
@@ -45,11 +44,8 @@ export default async(req: NextApiRequest, res: NextApiResponse)=> {
         if(coinIndex === -1){
             console.log("coinIndex not found")
         }else{
-
-            console.log(coinIndex)
             coins.splice(coinIndex, 1);
-            console.log(coins)
-    
+                
             const coinArray = [...coins]
             
             await fauna.query(

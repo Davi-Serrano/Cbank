@@ -1,15 +1,12 @@
 import { GetServerSideProps } from "next"
 
 import { Flex, Text, Icon, Image } from "@chakra-ui/react"
-import { MdAttachMoney } from "react-icons/md"
-import { BsArrowDown, BsArrowUp } from "react-icons/bs"
-import { FaRegMoneyBillAlt } from "react-icons/fa"
-
 
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
 import { getSession } from "next-auth/react"
-import axios from "axios"
+
+import { Card } from "../../components/Card"
 
 interface CoinProps{
     name: string;
@@ -23,14 +20,8 @@ interface CoinsProps {
   totalValue: number; 
 }
 
-export default function bankCoins ({coins, totalValue}: CoinsProps){
+export default function bankCoins ({coins}: CoinsProps){
  
-   async function handleDeleteCoin(name:string){
-      const response = await axios.post("/api/auth/coins", {name})
-   
-    }
-
-
       return(
         <Flex
           justify="space-around"
@@ -46,101 +37,15 @@ export default function bankCoins ({coins, totalValue}: CoinsProps){
          >
                     
             {coins.map(( coin: CoinProps) =>
-              <Flex
-              key={coin.name}
-              flexDir="column"
-              minW="20%"
-              p="1em"
-              m="2em"
-              h="45%"
-              bg="#222222"
-              borderRadius="16px"
-            >
-                <Text
-                  as="h2"mb="-10px"
-                  align="center"
-                >
-                  <Image src={coin.image} px="15px" h="50px" w="50px" alt="Coin icon" />
-                  {coin.name}
-                </Text>
-              <Flex >
-                  {coin.price_change_percentage_24h > 0 ?
-                    <Flex w="100%"  justify="space-around">
-                        <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
-                        <Text>{coin.current_price}</Text> 
-                    </Flex>
-                      :
-                    <Flex w="100%" justify="space-around">
-                        <Text color="red"><Icon as={BsArrowDown} color="white" /> {coin.price_change_percentage_24h}</Text>
-                        <Text>{coin.current_price}</Text> 
-                    </Flex>
-                  }
-              </Flex>
-                    
-              <Text>
-                  Buy Value: {coin.current_price}
-              </Text>
-                        
-              <Flex justify="space-around">
-                  <Text>
-                      Quantify:1
-                  </Text>
-
-                  <Flex w="100%" justify="space-around">      
-                      <Flex
-                        align="center"
-                        _hover={{
-                          cursor: "pointer"
-                        }}
-                        >
-                          <Icon color="green" as={FaRegMoneyBillAlt} /> 
-                          Buy
-                      </Flex>
-                      
-                      <Flex
-                        align="center"
-                        _hover={{
-                          cursor: "pointer"
-                        }}
-                        >
-                          <Icon color="red" as={FaRegMoneyBillAlt} onClick={()=>handleDeleteCoin(coin.name) }/> 
-                          Sell
-                      </Flex>
-                  </Flex>
-                </Flex>
-
-                <Flex  justify="center">
-                    <Flex align="center">
-                        <Text>
-                          Amount:
-                        </Text>       
-                        <Text color="green"> 
-                            {coin.current_price}
-                        </Text>
-                    </Flex>
-                </Flex>
-            </Flex>  
-              
-              )}           
-
-              <Flex
-            align="center"
-            fontSize="20px"
-            >
-
-            <Text>
-              Amount :
-            </Text>
-              <Icon
-                as={MdAttachMoney}
-                p="5px" 
+  
+              <Card
+                name={coin.name}
+                image={coin.image}
+                price={coin.current_price}
+                price_change={coin.price_change_percentage_24h}
               />
+             )}           
 
-            <Text>
-              {totalValue}
-            </Text>
-
-          </Flex> 
                          
        </Flex>
     )
