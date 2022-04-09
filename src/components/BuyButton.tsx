@@ -1,6 +1,7 @@
 import { Flex, Text, Icon } from "@chakra-ui/react";
 import axios from "axios";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { useRouter } from "next/router"
 
 interface CoinProps {
     name: string;
@@ -10,6 +11,10 @@ interface CoinProps {
 }
 
 export function BuyButton({name, image, current_price, price_change_percentage_24h}: CoinProps){ 
+    const router = useRouter()
+
+
+    
     const coin = {
         name,
         image,
@@ -19,7 +24,7 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
 
      async function handleCoinOnBank(coin: CoinProps){
         await axios.post("/api/auth/create", coin)
-
+        router.reload()
     }
     
     return(
