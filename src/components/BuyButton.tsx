@@ -3,10 +3,10 @@ import axios from "axios";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 interface CoinProps {
-    name: string,
-    image: string,
-    price_change_percentage_24h: number,
-    current_price: number,
+    name: string;
+    image: string;
+    price_change_percentage_24h: number;
+    current_price: number;
 }
 
 export function BuyButton({name, image, current_price, price_change_percentage_24h}: CoinProps){ 
@@ -14,11 +14,11 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
         name,
         image,
         price_change_percentage_24h,
-        current_price
+        current_price,
     }
 
      async function handleCoinOnBank(coin: CoinProps){
-        const response = await axios.post("/api/auth/create", coin)
+        await axios.post("/api/auth/create", coin)
 
     }
     

@@ -59,12 +59,12 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                         }   
                 
                 <Td w="50px" >
-                        <BuyButton
-                          name={id}
-                          image={image}
-                          current_price={current_price}
-                          price_change_percentage_24h={price_change_percentage_24h} 
-                        />
+                    <BuyButton
+                        name={id}
+                        image={image}
+                        current_price={current_price}
+                        price_change_percentage_24h={price_change_percentage_24h} 
+                    />
                 </Td>
                 <Td w="50px" >
                     <Link key={id} href={`/user/coin/${id}`}>    

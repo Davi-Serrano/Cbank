@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next"
 
-import { Flex, Text, Icon, Image } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
@@ -13,11 +13,11 @@ interface CoinProps{
     image: string;
     current_price: number,
     price_change_percentage_24h:number 
+    quantify:number;
   }
   
 interface CoinsProps {
   coins: CoinProps[];
-  totalValue: number; 
 }
 
 export default function bankCoins ({coins}: CoinsProps){
@@ -44,6 +44,7 @@ export default function bankCoins ({coins}: CoinsProps){
                 image={coin.image}
                 price={coin.current_price}
                 price_change={coin.price_change_percentage_24h}
+                quantify={coin.quantify}
               />
              )}           
 
@@ -75,24 +76,11 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
 
   if(user.data.coin_id | user.data.coin_id.length > 0 ){
 
-    const coins = user.data.coin_id
-    
-    const coinsPrice = coins.map((a: any)=>{
-      const formtatSintd = a.current_price.replace("$", "").replace(",", ".")
-      return parseFloat(formtatSintd)
-    })
-
-    const totalValue = coinsPrice.reduce((a: number, b: number)=>{
-       const total = a + b
-       return total
-    })
-
-    
+    const coins = user.data.coin_id 
     
     return{
       props:{
-        coins,
-        totalValue
+        coins
       }        
     }
   }

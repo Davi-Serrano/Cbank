@@ -44,15 +44,22 @@ export default function HomeBroker({coins}:CoinsProps){
                     <Tbody>
                         {filtredCoins.map(coin => {
                             return(
-                                <TableCoin id={coin.id} name={coin.name} symbol={coin.symbol} current_price={coin.current_price} total_volume={coin.total_volume} price_change_percentage_24h={coin.price_change_percentage_24h} image={coin.image}  />
+                                <TableCoin
+                                  key={coin.id}
+                                  id={coin.id}
+                                  name={coin.name}
+                                  symbol={coin.symbol}
+                                  current_price={coin.current_price}
+                                  total_volume={coin.total_volume}
+                                  price_change_percentage_24h={coin.price_change_percentage_24h}
+                                  image={coin.image}
+                                />
                                 )
                         })}
-
                 </Tbody>
             </Table>
         </Flex>
     )
-
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req})=>{

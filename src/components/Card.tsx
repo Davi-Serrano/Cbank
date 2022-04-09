@@ -10,9 +10,10 @@ interface CoinProps{
     image: string;
     price: number,
     price_change:number 
+    quantify:number;
   }
 
-export function Card({name, image, price, price_change}:CoinProps){
+export function Card({name, image, price, price_change, quantify}:CoinProps){
     
 
     return (
@@ -58,7 +59,7 @@ export function Card({name, image, price, price_change}:CoinProps){
                         
               <Flex justify="space-around">
                   <Text>
-                      Quantify:1
+                      Quantify:{quantify}
                   </Text>
 
                   <Flex w="100%" justify="space-around">      
