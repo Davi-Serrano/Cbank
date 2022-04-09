@@ -39,6 +39,7 @@ export default function bankCoins ({coins}: CoinsProps){
             {coins.map(( coin: CoinProps) =>
   
               <Card
+                key={coin.name}
                 name={coin.name}
                 image={coin.image}
                 price={coin.current_price}

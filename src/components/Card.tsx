@@ -1,7 +1,8 @@
 import { Flex, Text, Icon, Image } from "@chakra-ui/react"
-import axios from "axios";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
+
+import { SellButton } from "./SellButton"
 
 interface CoinProps{
     name: string;
@@ -11,12 +12,7 @@ interface CoinProps{
   }
 
 export function Card({name, image, price, price_change}:CoinProps){
-    async function handleDeleteCoin(name:string){
-        const response = await axios.post("/api/auth/coins", {name})
-     
-      }
-  
-  
+    
 
     return (
         <Flex
@@ -69,16 +65,10 @@ export function Card({name, image, price, price_change}:CoinProps){
                           <Icon color="green" as={FaRegMoneyBillAlt} /> 
                           Buy
                       </Flex>
+
+                      <SellButton name={name}/>
                       
-                      <Flex
-                        align="center"
-                        _hover={{
-                          cursor: "pointer"
-                        }}
-                        >
-                          <Icon color="red" as={FaRegMoneyBillAlt} onClick={()=>handleDeleteCoin(name) }/> 
-                          Sell
-                      </Flex>
+                     
                   </Flex>
                 </Flex>
 
