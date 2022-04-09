@@ -1,6 +1,7 @@
 import { Flex, Text, Icon, Image } from "@chakra-ui/react"
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { BuyButton } from "./BuyButton";
 
 import { SellButton } from "./SellButton"
 
@@ -40,7 +41,12 @@ export function Card({name, image, price, price_change}:CoinProps){
                     </Flex>
                       :
                     <Flex w="100%" justify="space-around">
-                        <Text color="red"><Icon as={BsArrowDown} color="white" /> {price_change}</Text>
+                        <Text color="red">
+                          <Icon as={BsArrowDown}
+                           color="white" 
+                           /> 
+                              {price_change}
+                        </Text>
                         <Text>{price}</Text> 
                     </Flex>
                   }
@@ -56,15 +62,12 @@ export function Card({name, image, price, price_change}:CoinProps){
                   </Text>
 
                   <Flex w="100%" justify="space-around">      
-                      <Flex
-                        align="center"
-                        _hover={{
-                          cursor: "pointer"
-                        }}
-                        >
-                          <Icon color="green" as={FaRegMoneyBillAlt} /> 
-                          Buy
-                      </Flex>
+                      <BuyButton 
+                        name={name}
+                        image={image}
+                        current_price={price}
+                        price_change_percentage_24h={price_change} 
+                      />
 
                       <SellButton name={name}/>
                       

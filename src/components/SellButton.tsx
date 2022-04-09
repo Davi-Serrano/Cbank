@@ -8,18 +8,20 @@ interface CoinProps{
 export function SellButton({name}: CoinProps){
 
     async function handleDeleteCoin(name:string){
-        await axios.post("/api/auth/coins", {name})
+        await axios.post("/api/auth/delete", {name})
       
        }
     
     return(
         <Flex
         align="center"
+        onClick={()=>handleDeleteCoin(name)}
         _hover={{
-          cursor: "pointer"
+          cursor: "pointer",
+          color: "red"
         }}
         >
-          <Icon color="red" as={FaRegMoneyBillAlt} onClick={()=>handleDeleteCoin(name) }/> 
+          <Icon as={FaRegMoneyBillAlt} /> 
           Sell
       </Flex>
     )

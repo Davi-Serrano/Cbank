@@ -31,7 +31,7 @@ export default function Home() {
         >
           <Text fontSize={20} pl="2em">Login : </Text>
           <SingInButton />
-        </Flex>
+      </Flex>
 
     </Flex>
   )
@@ -49,7 +49,6 @@ export const getServerSideProps: GetServerSideProps = async ({req})=>{
     }
   }
   
- 
   return{
     props:{
     }
