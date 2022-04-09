@@ -5,6 +5,7 @@ import { fauna } from "../../../services/fauna";
 
 interface CoinProps {
  name: string;
+ quantify: number;
 };
 
 interface SessionProps{
@@ -42,25 +43,46 @@ export default async(req: NextApiRequest, res: NextApiResponse)=> {
         const coinIndex = coins.findIndex( coin => coin.name === name);
 
         if(coinIndex === -1){
-            console.log("coinIndex not found")
+            console.log("Coin not found")
         }else{
-            coins.splice(coinIndex, 1);
-                
-            const coinArray = [...coins]
-            
-            await fauna.query(
-              q.Update(
-              q.Ref(q.Collection('users'), user.ref.id),
-                {
-                    data:{
-                        coin_id: coinArray,
-                    }
-                }
-              )
-            );
-    
-            return res.status(200).json("Coin deleted with success");
-        }
 
+            if(coins[coinIndex].quantify === 1){
+                    coins.splice(coinIndex, 1);
+                        
+                    const coinArray = [...coins]
+                    
+                    await fauna.query(
+                        q.Update(
+                            q.Ref(q.Collection('users'), user.ref.id),
+                            {
+                                data:{
+                                    coin_id: coinArray,
+                                }
+                            }
+                        )
+                    );
+                    
+                    return res.status(200).json("Coin deleted with success");
+            } else {
+                const coinArray = user.data.coin_id
+
+                Object.assign(coinArray[coinIndex], {
+                    quantify: user.data.coin_id[coinIndex].quantify - 1
+                })
+
+                await fauna.query(
+                    q.Update(
+                        q.Ref(q.Collection('users'), user.ref.id),
+                            {
+                                data:{
+                                    coin_id: coinArray,
+                                }
+                            }
+                    )
+                );
+
+                return res.status(200).json("Coin updated")
+            }
+        }
    }
 }
