@@ -14,7 +14,8 @@ interface CoinProps{
   }
 
 export function Card({name, image, price, price_change, quantify}:CoinProps){
-    
+      
+  const coinAmount = price * quantify
 
     return (
         <Flex
@@ -82,7 +83,7 @@ export function Card({name, image, price, price_change, quantify}:CoinProps){
                           Amount:
                         </Text>       
                         <Text color="green"> 
-                            {price}
+                            U${coinAmount.toFixed(2)}
                         </Text>
                     </Flex>
                 </Flex>

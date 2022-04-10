@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next"
 
-import { Flex } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
@@ -48,6 +48,7 @@ export default function bankCoins ({coins}: CoinsProps){
               />
              )}           
 
+            <Box>Amount: U$: 00,00</Box>
                          
        </Flex>
     )
@@ -76,11 +77,11 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
 
   if(user.data.coin_id | user.data.coin_id.length > 0 ){
 
-    const coins = user.data.coin_id 
+    const coins = user.data.coin_id
     
     return{
       props:{
-        coins
+        coins,
       }        
     }
   }

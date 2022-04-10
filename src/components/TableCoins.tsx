@@ -34,8 +34,8 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                         <Image src={image} w="50px" />
                         <Text pl="1em">{name}</Text>
                     </Flex>
-                </Td  >
-                <Td w="100px" >U{current_price}</Td>
+                </Td>
+                <Td w="100px" >U${current_price}</Td>
             
                     {price_change_percentage_24h > 0 ? 
                     

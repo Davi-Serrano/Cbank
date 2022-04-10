@@ -3,7 +3,6 @@ import { useCoins }  from "../../context/coins"
 import { getSession } from "next-auth/react"
 import { api } from "../../services/api"
 
-
 import  {Flex, Table, Tbody} from "@chakra-ui/react"
 
 import {SearchInput} from "../../components/SearchInput"
@@ -84,10 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({req})=>{
             image: coin.image,
             total_volume: coin.total_volume,
             price_change_percentage_24h: coin.price_change_percentage_24h.toFixed(2),
-            current_price: new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD', 
-            }).format(coin.current_price),
+            current_price: coin.current_price.toFixed(2),
         }
     })
     return {
