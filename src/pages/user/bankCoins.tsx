@@ -74,7 +74,6 @@ export default function bankCoins ({coins}: CoinsProps){
               
               py="2em"
               flexWrap="wrap"
-              zIndex="-1"
             >
                         
                 {coins.map(( coin: CoinProps) =>

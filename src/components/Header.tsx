@@ -17,7 +17,8 @@ export  function Header() {
         <Flex
           justify="space-between"
           align="center"
-          p="1em 10em"
+          px={["1em", "10em"]}
+          py="1em"
           bg="#032233"
           >
             <Logo />   
