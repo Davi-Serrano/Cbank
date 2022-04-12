@@ -1,11 +1,9 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import dynamic from 'next/dynamic'
-import { GetServerSideProps } from "next"
 import { api } from '../../../services/api';
 
 import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react'
-import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 interface CoinProps{
   coin:{
@@ -81,8 +79,6 @@ export default  function DataSCoin() {
   const router = useRouter()
   const id = router.query.id
 
-  console.log(id)
-
   const [ state, setState] = useState({
     id: "null",
     symbol: "null",
@@ -113,9 +109,9 @@ export default  function DataSCoin() {
           justifyItems="flex-start"
           minChildWidth="320px"
           bg="#2C2C2C"
-          w="70%"
+          
           h="450px"
-          m="auto"
+          mx={["0em", "1em"]}
           mt="2em"
           p="2em"
           >
@@ -125,24 +121,23 @@ export default  function DataSCoin() {
                 justify="flex-start"
                 h="100px"
                 >
-
                   <Flex
                     align="center"
                     justify="flex-start"
                     h="100px"
-                    pl="3em"
+                    pl={["0.5.em", "3em"]}
                     >
-
                       <img src={state.image.small} height='80px' width='80px' /> 
-                      <Text fontSize={25} textTransform="capitalize"  px="0.2em">  
+                      <Text fontSize={25} textTransform="capitalize" >  
                             <strong> {state.id} :</strong> U${state.market_data.current_price.usd.toFixed(2)}
                       </Text>
-                  </Flex>
-                    
-                  <Chart options={options} series={series} type="area" height={350} width={500} />
+                </Flex>
+                <Box display={["none", "none", "none", "block"]}>
+                  <Chart options={options} series={series} type="area" height={350} width={500} />  :                             
+                  </Box>
             </Flex>
 
-            <Box ml="5em" mt="1em" fontSize={20}> 
+            <Box ml={["0.5em", "5em"]} mt="1em" fontSize={20}> 
                 <Flex align="center">
                   <Text fontWeight="700">Volume :</Text>
                   <Text pl="0.2em"> U$ {state.market_data.total_volume.usd.toFixed(2)}</Text>
@@ -162,66 +157,8 @@ export default  function DataSCoin() {
                   <Text fontWeight="700">Cod :</Text>
                   <Text pl="1em">{state.symbol.toUpperCase()}</Text>
                 </Flex>
-            </Box>
-
-          
+            </Box>       
       </SimpleGrid>
       )
   }
 
-
-// export const getServerSideProps: GetServerSideProps = async({req, params})=>{
-//   const session = await getSession({req})
-
-//   if(!session){
-//     return{
-//       redirect:{
-//         destination: "/",
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   try {
-          
-//     const { id } = params
-
-//     const date = new Date();
-//     const day = String(date.getDate()).padStart(2, '0');
-//     const month = String(date.getMonth() + 1).padStart(2, '0');
-//     const year = date.getFullYear();
-//     const today = day + '-' + month + '-' + year;
-
-//     const { data } = await api.get(`https://api.coingecko.com/api/v3/coins/${id}/history?date=${today}&localization=false`)
-//     console.log(id)
-//     console.log()
-    
-//     const coin =  {
-//           id: data.id,
-//           symbol: data.symbol.toUpperCase(),
-//           image: data.image.small,
-//           current_price: new Intl.NumberFormat('en-US', {
-//             style: 'currency',
-//             currency: 'USD', 
-//           }).format(data.market_data.current_price.usd),
-//           total_volume: new Intl.NumberFormat('en-US', {
-//             style: 'currency',
-//             currency: 'USD', 
-//           }).format(data.market_data.total_volume.usd),
-//           market_cap: new Intl.NumberFormat('en-US', {
-//             style: 'currency',
-//             currency: 'USD', 
-//           }).format(data.market_data.market_cap.usd),
-//     }
-    
-//     return{
-//       props:{
-//         coin
-//       }
-//     }
-//   } catch {
-//       return{
-//         props:{}  
-//       }
-//     }
-// }

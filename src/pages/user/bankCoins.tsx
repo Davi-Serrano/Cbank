@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next"
 
 import { Box, Flex, Icon } from "@chakra-ui/react"
+import { useMediaQuery } from "@chakra-ui/react"
 
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
