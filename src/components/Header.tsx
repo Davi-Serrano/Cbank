@@ -27,17 +27,17 @@ export  function Header() {
                  justify="space-around"
                  fontSize={15}
                  position="relative"
+                 onClick={()=> hidden == "none" ? setHidden("show") : setHidden("none")}
+                 _hover={{
+                   cursor: "pointer"
+                 }}
                >
                   <Image src={session?.user?.image} w="30px" borderRadius="100%" />
                   <Text px="0.5em"> {session?.user?.name}</Text>
                   <Icon
                     as={IoMdArrowDropdown}
                     fontSize="30px" 
-                    onClick={()=> hidden == "none" ? setHidden("show") : setHidden("none")}
-                    _hover={{
-                      cursor: "pointer"
-                    }}
-                    />
+                  />
                    
                   <Box
                     position="absolute"
@@ -47,10 +47,11 @@ export  function Header() {
                     <Flex
                       flexDir="column"
                       align="center"
-                      bg="#C4C4C4"
+                      bg="#f5f5f5"
+                      borderRadius="10px"
                       fontSize="20px"
                       p="0.5em"
-                      color="white"
+                      fontWeight="bold"
                       _hover={{
                         cursor: "pointer"
                       }}
