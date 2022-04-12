@@ -25,7 +25,7 @@ interface CoinsProps {
 
 export default function bankCoins ({coins}: CoinsProps){
 
-  const [icon, setIcon]= useState("none")
+  const [icon, setIcon]= useState<DocumentVisibilityState>("hidden")
 
     const amount = coins.reduce( (acc, coin)=>{
       return acc + coin.current_price * coin.quantify
@@ -42,20 +42,21 @@ export default function bankCoins ({coins}: CoinsProps){
               align="center"
               fontSize="22px"
               fontWeight="bold"
+              
               >
-                Amount: U$ <Box display={icon}>{amount.toFixed(2)}  </Box>
+                Amount: U$ <Box visibility={icon}>{amount.toFixed(2)}  </Box>
 
-              { icon === "none" ? 
+              { icon === "hidden" ? 
                 <Icon as={AiFillEye} 
                 px="0.5em"
-                onClick={()=> setIcon("show")}
+                onClick={()=> setIcon("visible")}
                 _hover={{
                   cursor: "pointer"
                 }}
                 /> :
                 <Icon as={AiFillEyeInvisible} 
                 px="0.5em"
-                onClick={()=> setIcon("none")}
+                onClick={()=> setIcon("hidden")}
                 _hover={{
                   cursor: "pointer"
                 }}

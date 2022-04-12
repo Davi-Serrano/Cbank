@@ -31,6 +31,7 @@ export default function HomeBroker({coins}:CoinsProps){
         <Flex
             flexDir="column"
             w="80%"
+            maxW="1280PX"
             bg="#2C2C2C"
             align='center'
             justify="center"
