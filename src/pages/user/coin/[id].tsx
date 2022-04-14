@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import dynamic from 'next/dynamic'
 import { api } from '../../../services/api';
 
-import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react'
+import { Box, Flex, SimpleGrid, Text, theme, Spinner } from '@chakra-ui/react'
 
 interface CoinProps{
   coin:{
@@ -79,7 +79,7 @@ export default  function DataSCoin() {
   const router = useRouter()
   const id = router.query.id
 
-  const [ state, setState] = useState({
+  const [ coin, setCoin] = useState({
     id: "null",
     symbol: "null",
     image:{
@@ -99,10 +99,23 @@ export default  function DataSCoin() {
 
   })
 
-  useEffect (async ()=>{
+  useEffect (async()=>{
     const { data } = await api.get(`https://api.coingecko.com/api/v3/coins/${id}/history?date=${today}&localization=false`)
-    setState(data)
+    setCoin(data)
   }, [])
+
+
+    while(coin.id === "null"){
+      return(
+        <Flex 
+          justify="center"
+          align="center"
+          h="100vh"
+        >    
+         <Spinner  w="100px" h="100px"/>       
+        </Flex>
+      )
+    }
 
       return(
       <SimpleGrid
@@ -127,9 +140,9 @@ export default  function DataSCoin() {
                     h="100px"
                     pl={["0.5.em", "3em"]}
                     >
-                      <img src={state.image.small} height='80px' width='80px' /> 
+                      <img src={coin.image.small} height='80px' width='80px' /> 
                       <Text fontSize={25} textTransform="capitalize" >  
-                            <strong> {state.id} :</strong> U${state.market_data.current_price.usd.toFixed(2)}
+                            <strong> {coin.id} :</strong> U${coin.market_data.current_price.usd.toFixed(2)}
                       </Text>
                 </Flex>
                 <Box display={["none", "none", "none", "block"]}>
@@ -140,22 +153,22 @@ export default  function DataSCoin() {
             <Box ml={["0.5em", "5em"]} mt="1em" fontSize={20}> 
                 <Flex align="center">
                   <Text fontWeight="700">Volume :</Text>
-                  <Text pl="0.2em"> U$ {state.market_data.total_volume.usd.toFixed(2)}</Text>
+                  <Text pl="0.2em"> U$ {coin.market_data.total_volume.usd.toFixed(2)}</Text>
                 </Flex>
                   
                 <Flex>
                   <Text fontWeight="700">Preço :</Text>
-                  <Text pl="0.2em">U$ {state.market_data.current_price.usd.toFixed(2)}</Text>
+                  <Text pl="0.2em">U$ {coin.market_data.current_price.usd.toFixed(2)}</Text>
                 </Flex>
                   
                 <Flex align="center">
                   <Text fontWeight="700">MarketCap:</Text>
-                  <Text pl="0.2em">U$ {state.market_data.market_cap.usd.toFixed(2)}</Text>
+                  <Text pl="0.2em">U$ {coin.market_data.market_cap.usd.toFixed(2)}</Text>
                 </Flex>
 
                 <Flex align="center">
                   <Text fontWeight="700">Cod :</Text>
-                  <Text pl="1em">{state.symbol.toUpperCase()}</Text>
+                  <Text pl="1em">{coin.symbol.toUpperCase()}</Text>
                 </Flex>
             </Box>       
       </SimpleGrid>
