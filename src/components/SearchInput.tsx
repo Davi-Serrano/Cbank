@@ -19,11 +19,12 @@ export function SearchInput(){
            py='4'
            px='8'
            m="auto"
-           mt="3em"
+           mt={["6em", "3em"]}
            w="50%"
            alignSelf="center"
            position="relative"
            borderRadius="full"
+          
        >
          <Icon as={BiSearch} color="black" fontSize='25' />
             <Input

@@ -1,13 +1,18 @@
 import { GetServerSideProps } from 'next'
+import  Link  from "next/link"
 import { useCoins }  from "../../context/coins"
 import { getSession } from "next-auth/react"
 import { api } from "../../services/api"
-
-import  {Flex, Table, Tbody} from "@chakra-ui/react"
 import { List, ListRowRenderer, AutoSizer } from "react-virtualized"
+
+
+import  {Flex, Image,Table, Text,Tbody, useMediaQuery, Box, Icon} from "@chakra-ui/react"
+import { FaRegListAlt } from 'react-icons/fa'
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 
 import {SearchInput} from "../../components/SearchInput"
 import { TableCoin } from "../../components/TableCoins"
+import { BuyButton } from '../../components/BuyButton'
 
 interface CoinProps {
     id: string,
@@ -23,30 +28,34 @@ interface CoinsProps {
 }
 
 export default function HomeBroker({coins}:CoinsProps){
+    //Show coins results off setCoins on SearchInput component
     const { search } = useCoins()
 
+    //Filter coins for search value  
     const filtredCoins = coins.filter( coin =>
         coin.name.toLowerCase().includes(search)
     );
 
+    //React-virtualized map on filtredCoins and display 4 for time
     const rowRender: ListRowRenderer = ({index, key, style})=>{
         return (  
-                    <div key={key} style={style}>
-    
-                        <TableCoin
-                        id={filtredCoins[index].id}
-                        name={filtredCoins[index].name}
-                        symbol={filtredCoins[index].symbol}
-                        current_price={filtredCoins[index].current_price}
-                        total_volume={filtredCoins[index].total_volume}
-                        price_change_percentage_24h={filtredCoins[index].price_change_percentage_24h}
-                        image={filtredCoins[index].image}
-                        />
-                    </div>     
+            <div key={key} style={style}>
+
+                <TableCoin
+                id={filtredCoins[index].id}
+                name={filtredCoins[index].name}
+                symbol={filtredCoins[index].symbol}
+                current_price={filtredCoins[index].current_price}
+                total_volume={filtredCoins[index].total_volume}
+                price_change_percentage_24h={filtredCoins[index].price_change_percentage_24h}
+                image={filtredCoins[index].image}
+                />
+            </div>     
            
         )
     }
 
+    const [isLargerThan1280] = useMediaQuery('(min-width: 1280px)')
 
     return(
         <Flex
@@ -61,11 +70,10 @@ export default function HomeBroker({coins}:CoinsProps){
             pb="2em"
         >    
             <SearchInput />
-            <Table w="80%" variant="unstyled" mt="3em">
+           { isLargerThan1280 ? <Table w="80%" variant="unstyled" mt="3em">
                     <Tbody h="80vh">
                         <AutoSizer>
                             {({height, width})=>(
-
                             <List 
                                 height={height}
                                 rowHeight={130}
@@ -74,11 +82,86 @@ export default function HomeBroker({coins}:CoinsProps){
                                 rowCount={filtredCoins.length}
                                 rowRenderer={rowRender}
                                 />)}
-                        </AutoSizer>
-
-                       
+                        </AutoSizer>                  
                 </Tbody>
-            </Table>
+            </Table> : 
+
+            <Flex 
+                flexDir="column"
+                w="80%"
+                maxW="1280PX"
+                bg="#2C2C2C"
+                align='center'
+                justify="center"
+                m="auto"
+                mt="5%"
+                pb="2em"
+            >
+                {filtredCoins.map(coin=>{ return(
+                   
+                    <Box key={coin.id}>
+                        <Text
+                            as="h2"mb="-10px"
+                            align="center"
+                        >
+                            <Image src={coin.image} px="15px" h="50px" w="50px" alt="Coin icon" />
+                            {coin.name}
+                        </Text>
+                        <Text> 
+                            U${coin.current_price}
+                        </Text>
+                        <Flex >
+                            {coin.price_change_percentage_24h > 0 ?
+                                <Flex w="100%"  justify="space-around">
+                                    <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
+                                    <Text>{coin.current_price}</Text> 
+                                </Flex>
+                                :
+                                <Flex w="100%" justify="space-around">
+                                    <Text color="red">
+                                    <Icon as={BsArrowDown}
+                                    color="white" 
+                                    /> 
+                                        {coin.price_change_percentage_24h}
+                                    </Text>
+                                    <Text>{coin.current_price}</Text> 
+                                </Flex>
+                            }
+
+                        </Flex>
+                        <Flex>       
+                            
+                        <BuyButton 
+                            name={coin.name}
+                            image={coin.image}
+                            current_price={coin.current_price}
+                            price_change_percentage_24h={coin.price_change_percentage_24h} 
+                        />              
+                            <Link key={coin.id} href={`/user/coin/${coin.id}`}>    
+                                <a>
+                                    <Flex
+                                        align="center"
+                                        ml="1em"
+                                        _hover={{
+                                        cursor: "pointer",
+                                        color: "#07a5fa"
+                                    }}
+                                        >
+                                        <Icon as={FaRegListAlt} /> 
+                                        <Text pl="0.2em">
+                                            Informartions
+                                        </Text>
+                                    </Flex>
+                                </a>
+                            </Link> 
+                        
+                        </Flex>
+                    </Box>
+                    )}
+                 )}      
+                
+            </Flex> 
+            }
         </Flex>
     )
 }
@@ -86,6 +169,7 @@ export default function HomeBroker({coins}:CoinsProps){
 export const getServerSideProps: GetServerSideProps = async ({req})=>{
     const session = await getSession({req})
 
+    //Verfication if user has autorization, else go to login
     if(!session){
         return{
           redirect:{
@@ -93,10 +177,11 @@ export const getServerSideProps: GetServerSideProps = async ({req})=>{
             permanent: false
           }
         }
-      }
-
+    }
+    //API get data
     const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
     
+    //Formated data for API
     const coins = response.data.map((coin: CoinProps) =>{
         return {
             id: coin.id,

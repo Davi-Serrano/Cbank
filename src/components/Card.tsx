@@ -19,7 +19,6 @@ export function Card({name, image, price, price_change, quantify}:CoinProps){
 
     return (
         <Flex
-              key={name}
               flexDir="column"
               w="200px"
               p="1em"
