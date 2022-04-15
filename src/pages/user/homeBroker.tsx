@@ -4,6 +4,7 @@ import { getSession } from "next-auth/react"
 import { api } from "../../services/api"
 
 import  {Flex, Table, Tbody} from "@chakra-ui/react"
+import { List, ListRowRenderer, AutoSizer } from "react-virtualized"
 
 import {SearchInput} from "../../components/SearchInput"
 import { TableCoin } from "../../components/TableCoins"
@@ -25,7 +26,27 @@ export default function HomeBroker({coins}:CoinsProps){
     const { search } = useCoins()
 
     const filtredCoins = coins.filter( coin =>
-        coin.name.toLowerCase().includes(search))
+        coin.name.toLowerCase().includes(search)
+    );
+
+    const rowRender: ListRowRenderer = ({index, key, style})=>{
+        return (  
+                    <div key={key} style={style}>
+    
+                        <TableCoin
+                        id={filtredCoins[index].id}
+                        name={filtredCoins[index].name}
+                        symbol={filtredCoins[index].symbol}
+                        current_price={filtredCoins[index].current_price}
+                        total_volume={filtredCoins[index].total_volume}
+                        price_change_percentage_24h={filtredCoins[index].price_change_percentage_24h}
+                        image={filtredCoins[index].image}
+                        />
+                    </div>     
+           
+        )
+    }
+
 
     return(
         <Flex
@@ -41,21 +62,21 @@ export default function HomeBroker({coins}:CoinsProps){
         >    
             <SearchInput />
             <Table w="80%" variant="unstyled" mt="3em">
-                    <Tbody>
-                        {filtredCoins.map(coin => {
-                            return(
-                                <TableCoin
-                                  key={coin.id}
-                                  id={coin.id}
-                                  name={coin.name}
-                                  symbol={coin.symbol}
-                                  current_price={coin.current_price}
-                                  total_volume={coin.total_volume}
-                                  price_change_percentage_24h={coin.price_change_percentage_24h}
-                                  image={coin.image}
-                                />
-                                )
-                        })}
+                    <Tbody h="80vh">
+                        <AutoSizer>
+                            {({height, width})=>(
+
+                            <List 
+                                height={height}
+                                rowHeight={130}
+                                width={width}
+                                overscanRowCount={5}
+                                rowCount={filtredCoins.length}
+                                rowRenderer={rowRender}
+                                />)}
+                        </AutoSizer>
+
+                       
                 </Tbody>
             </Table>
         </Flex>

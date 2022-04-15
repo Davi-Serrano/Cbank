@@ -22,14 +22,14 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
    
    return(
         <Tr
-            key={id}
             color="black"
             fontWeight="bold"
             fontSize="20px"
             bg="#C4C4C4"
             borderBottom="9px solid #2C2C2C"
+            
         >
-                <Td>
+                <Td w="200px">
                     <Flex align="center">
                         <Image src={image} w="50px" />
                         <Text pl="1em">{name}</Text>
@@ -66,7 +66,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                         price_change_percentage_24h={price_change_percentage_24h} 
                     />
                 </Td>
-                <Td w="50px" >
+                <Td w="200px" >
                     <Link key={id} href={`/user/coin/${id}`}>    
                         <a>
                             <Flex
