@@ -6,7 +6,7 @@ import { api } from "../../services/api"
 import { List, ListRowRenderer, AutoSizer } from "react-virtualized"
 
 
-import  {Flex, Image,Table, Text,Tbody, useMediaQuery, Box, Icon} from "@chakra-ui/react"
+import  {Flex, Image,Table, Text,Tbody, useMediaQuery, Box, Icon, theme} from "@chakra-ui/react"
 import { FaRegListAlt } from 'react-icons/fa'
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 
@@ -86,53 +86,53 @@ export default function HomeBroker({coins}:CoinsProps){
                 </Tbody>
             </Table> : 
 
-            <Flex 
-                flexDir="column"
-                w="80%"
-                maxW="1280PX"
-                bg="#2C2C2C"
-                align='center'
-                justify="center"
-                m="auto"
-                mt="5%"
-                pb="2em"
-            >
+            <Box>
                 {filtredCoins.map(coin=>{ return(
                    
-                    <Box key={coin.id}>
+                    <Flex 
+                        key={coin.id}
+                        flexDir="column"
+                        align='center'
+                        justify="center"
+                        w="80%"
+                        bg="#222222"
+                        borderRadius="16px"
+                        m="auto"
+                        mt="5%"
+                        pb="2em"
+                        >
                         <Text
-                            as="h2"mb="-10px"
+                            as="h2" 
                             align="center"
                         >
                             <Image src={coin.image} px="15px" h="50px" w="50px" alt="Coin icon" />
                             {coin.name}
                         </Text>
-                        <Text> 
-                            U${coin.current_price}
-                        </Text>
-                        <Flex >
+                        <Flex 
+                            w="100%"
+                            fontWeight="bold"
+                            >
                             {coin.price_change_percentage_24h > 0 ?
                                 <Flex w="100%"  justify="space-around">
                                     <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
-                                    <Text>{coin.current_price}</Text> 
+                                    <Text>U${coin.current_price}</Text> 
                                 </Flex>
                                 :
                                 <Flex w="100%" justify="space-around">
                                     <Text color="red">
                                     <Icon as={BsArrowDown}
                                     color="white" 
-                                    /> 
-                                        {coin.price_change_percentage_24h}
+                                /> 
+                                     {coin.price_change_percentage_24h}
                                     </Text>
-                                    <Text>{coin.current_price}</Text> 
+                                    <Text>U${coin.current_price}</Text> 
                                 </Flex>
                             }
-
                         </Flex>
                         <Flex>       
                             
                         <BuyButton 
-                            name={coin.name}
+                            name={coin.id}
                             image={coin.image}
                             current_price={coin.current_price}
                             price_change_percentage_24h={coin.price_change_percentage_24h} 
@@ -142,13 +142,9 @@ export default function HomeBroker({coins}:CoinsProps){
                                     <Flex
                                         align="center"
                                         ml="1em"
-                                        _hover={{
-                                        cursor: "pointer",
-                                        color: "#07a5fa"
-                                    }}
-                                        >
-                                        <Icon as={FaRegListAlt} /> 
-                                        <Text pl="0.2em">
+                                    >
+                                        <Icon as={FaRegListAlt} color="white"/> 
+                                        <Text pl="0.2em" color="white">
                                             Informartions
                                         </Text>
                                     </Flex>
@@ -156,11 +152,11 @@ export default function HomeBroker({coins}:CoinsProps){
                             </Link> 
                         
                         </Flex>
-                    </Box>
+                    </Flex>
                     )}
                  )}      
                 
-            </Flex> 
+            </Box> 
             }
         </Flex>
     )
