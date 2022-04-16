@@ -23,7 +23,7 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
     }
 
      async function handleCoinOnBank(coin: CoinProps){
-        await axios.post("/api/auth/create", coin)
+        await axios.post("/api/create", coin)
         router.reload()
     }
     

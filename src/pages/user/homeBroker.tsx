@@ -1,12 +1,13 @@
 import { GetServerSideProps } from 'next'
-import  Link  from "next/link"
-import { useCoins }  from "../../context/coins"
 import { getSession } from "next-auth/react"
+import  Link  from "next/link"
+
 import { api } from "../../services/api"
+import { useCoins }  from "../../context/coins"
+
 import { List, ListRowRenderer, AutoSizer } from "react-virtualized"
 
-
-import  {Flex, Image,Table, Text,Tbody, useMediaQuery, Box, Icon, theme} from "@chakra-ui/react"
+import  {Flex, Image,Table, Text,Tbody, useMediaQuery, Box, Icon} from "@chakra-ui/react"
 import { FaRegListAlt } from 'react-icons/fa'
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 
@@ -29,13 +30,11 @@ interface CoinsProps {
 
 export default function HomeBroker({coins}:CoinsProps){
     //Show coins results off setCoins on SearchInput component
-    const { search } = useCoins()
-
+    const { search } = useCoins();
     //Filter coins for search value  
     const filtredCoins = coins.filter( coin =>
         coin.name.toLowerCase().includes(search)
     );
-
     //React-virtualized map on filtredCoins and display 4 for time
     const rowRender: ListRowRenderer = ({index, key, style})=>{
         return (  
@@ -53,9 +52,9 @@ export default function HomeBroker({coins}:CoinsProps){
             </div>     
            
         )
-    }
-
-    const [isLargerThan1280] = useMediaQuery('(min-width: 1280px)')
+    };
+    //Verification the width of screen for mobile version 
+    const [ isLargerThan1280 ] = useMediaQuery('(min-width: 1280px)');
 
     return(
         <Flex
@@ -70,25 +69,28 @@ export default function HomeBroker({coins}:CoinsProps){
             pb="2em"
         >    
             <SearchInput />
-           { isLargerThan1280 ? <Table w="80%" variant="unstyled" mt="3em">
-                    <Tbody h="80vh">
-                        <AutoSizer>
-                            {({height, width})=>(
-                            <List 
-                                height={height}
-                                rowHeight={130}
-                                width={width}
-                                overscanRowCount={5}
-                                rowCount={filtredCoins.length}
-                                rowRenderer={rowRender}
-                                />)}
-                        </AutoSizer>                  
+            { isLargerThan1280 ? 
+            //Desktop Version
+            <Table w="80%" variant="unstyled" mt="3em">
+                <Tbody h="80vh">
+                    <AutoSizer>
+                        {({height, width})=>(
+                        <List 
+                            height={height}
+                            rowHeight={130}
+                            width={width}
+                            overscanRowCount={5}
+                            rowCount={filtredCoins.length}
+                            rowRenderer={rowRender}
+                        />
+                        )}
+                    </AutoSizer>                  
                 </Tbody>
-            </Table> : 
-
+            </Table> 
+            : 
+            //Mobile Version
             <Box>
                 {filtredCoins.map(coin=>{ return(
-                   
                     <Flex 
                         key={coin.id}
                         flexDir="column"

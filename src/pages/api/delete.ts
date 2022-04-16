@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react"
 import { query as q} from "faunadb"
-import { fauna } from "../../../services/fauna";
+import { fauna } from "../../services/fauna";
 
 interface CoinProps {
  name: string;

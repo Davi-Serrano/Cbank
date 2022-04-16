@@ -1,24 +1,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from 'next/dynamic'
+
 import { api } from '../../../services/api';
 
-import { Box, Flex, SimpleGrid, Text, theme, Spinner } from '@chakra-ui/react'
-
-interface CoinProps{
-  coin:{
-    id: string,
-    symbol: string,
-    image: string,
-    market_cap: number,
-    total_volume: number,
-    current_price: number,
-  }
-}
+import { Box, Flex, SimpleGrid, Text, Image,theme, Spinner } from '@chakra-ui/react'
 
 const Chart = dynamic(()=> import("react-apexcharts"),{
   ssr: false
-})
+});
 
 const options = {
     chart: {
@@ -67,18 +57,19 @@ const options = {
 
 const series = [
   {name: "serie1", data: [31,120,10,45],}
-]
+];
 
 export default  function DataSCoin() {
+  //Trasnform actual date for API
   const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const today = day + '-' + month + '-' + year;
-
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  const today = day + '-' + month + '-' + year;
+  //Get the coin id in the routes params for API
   const router = useRouter()
   const id = router.query.id
-
+  //The API coin data storage
   const [ coin, setCoin] = useState({
     id: "null",
     symbol: "null",
@@ -97,60 +88,75 @@ export default  function DataSCoin() {
       }
     },
 
-  })
-
+  });
+  //Get in the API for coin informations
   useEffect (async()=>{
     const { data } = await api.get(`https://api.coingecko.com/api/v3/coins/${id}/history?date=${today}&localization=false`)
+    //Set on the coin the informations
     setCoin(data)
-  }, [])
+  }, []);
+  //Loading display waiting for API GET
+  while(coin.id === "null"){
+    return(
+      <Flex 
+        justify="center"
+        align="center"
+        h="100vh"
+      >    
+        <Spinner  w="100px" h="100px"/>       
+      </Flex>
+    )
+  };
 
-
-    while(coin.id === "null"){
-      return(
-        <Flex 
-          justify="center"
-          align="center"
-          h="100vh"
-        >    
-         <Spinner  w="100px" h="100px"/>       
-        </Flex>
-      )
-    }
-
-      return(
+  return(
       <SimpleGrid
           justifyItems="flex-start"
           minChildWidth="320px"
-          bg="#2C2C2C"
-          
+          bg="#2C2C2C"     
           h="450px"
           mx={["0em", "1em"]}
           mt="2em"
           p="2em"
-          >
+        >
+            {/* Coin image and chart */}
             <Flex
-                flexDir="column"
-                align="flex-start"
-                justify="flex-start"
-                h="100px"
+              flexDir="column"
+              align="flex-start"
+              justify="flex-start"
+              h="100px"
+            > 
+                {/* Coin image, name and current price */}
+                <Flex
+                  align="center"
+                  justify="flex-start"
+                  h="100px"
+                  pl={["0.5.em", "3em"]}
                 >
-                  <Flex
-                    align="center"
-                    justify="flex-start"
-                    h="100px"
-                    pl={["0.5.em", "3em"]}
-                    >
-                      <img src={coin.image.small} height='80px' width='80px' /> 
-                      <Text fontSize={25} textTransform="capitalize" >  
-                            <strong> {coin.id} :</strong> U${coin.market_data.current_price.usd.toFixed(2)}
-                      </Text>
+                    <Image src={coin.image.small} height='80px' width='80px' alt="Coin icon" /> 
+                    <Text fontSize={25} textTransform="capitalize" >  
+                        <Text fontWeight="bold">
+                            {coin.id} :
+                        </Text> 
+                        U${coin.market_data.current_price.usd.toFixed(2)}
+                    </Text>
                 </Flex>
-                <Box display={["none", "none", "none", "block"]}>
-                  <Chart options={options} series={series} type="area" height={350} width={500} />  :                             
-                  </Box>
+                {/* Chart display */}
+                <Box
+                  display={["none",
+                  "none",
+                  "none",
+                  "block"]}
+                >
+                    <Chart options={options} series={series} type="area" height={350} width={500} />  :                             
+                </Box>
             </Flex>
-
-            <Box ml={["0.5em", "5em"]} mt="1em" fontSize={20}> 
+            {/* Coin Informations */}
+            <Box
+              ml={["0.5em",
+              "5em"]}
+              mt="1em"
+              fontSize={20}
+            >
                 <Flex align="center">
                   <Text fontWeight="700">Volume :</Text>
                   <Text pl="0.2em"> U$ {coin.market_data.total_volume.usd.toFixed(2)}</Text>
@@ -172,6 +178,6 @@ export default  function DataSCoin() {
                 </Flex>
             </Box>       
       </SimpleGrid>
-      )
-  }
+  )
+};
 

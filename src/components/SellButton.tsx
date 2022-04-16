@@ -11,7 +11,7 @@ export function SellButton({name}: CoinProps){
   const router = useRouter() 
 
     async function handleDeleteCoin(name:string){
-        await axios.post("/api/auth/delete", {name})
+        await axios.post("/api/delete", {name})
         router.reload()
       
        }
