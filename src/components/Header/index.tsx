@@ -3,7 +3,7 @@ import { Flex, Box ,Button, Image,Text, Icon} from "@chakra-ui/react";
 import { IoMdArrowDropdown } from "react-icons/io"
 
 import {Logo} from "./Logo" 
-import { SingInButton } from "./SingInButton";
+import { SingInButton } from "../SingInButton";
 
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -61,6 +61,11 @@ export  function Header() {
                         textAlign="center"
                         w="100%"
                         borderBottom="2px solid gray"
+                        transition="0.5s"
+                        _hover={{
+                          cursor:"pointer",
+                          opacity: "0.5"
+                        }}
                         onClick={()=>setHidden("none")}
                         >
                         <NextLink href="/user/bankCoins" passHref> Bank </NextLink>
@@ -68,7 +73,13 @@ export  function Header() {
                      
                       <Box
                         textAlign="center"
-                        w="100%"borderBottom="2px solid gray"
+                        w="100%"
+                        borderBottom="2px solid gray"
+                        transition="0.5s"
+                        _hover={{
+                          cursor:"pointer",
+                          opacity: "0.5"
+                        }}
                         onClick={()=>setHidden("none")}
                         >
                         <NextLink href="/user/homeBroker" passHref> HomeBroker </NextLink>
@@ -79,9 +90,11 @@ export  function Header() {
                           variant="unstyled"
                           border="none"
                           color="black"
+                          transition="0.5s"
                           onClick={()=>signOut()}
                           _hover={{
-                            cursor:"pointer"
+                            cursor:"pointer",
+                            opacity: "0.5"
                           }}
                           > SignOut </Button>
                       </Box>

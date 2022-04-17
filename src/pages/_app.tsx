@@ -10,13 +10,13 @@ import NextProgess from "nextjs-progressbar"
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider resetCSS={false} theme={theme}>
-         <SessionProvider session={pageProps.session}>
-              <CoinsProvider>
-                  <Header />
-                  <Component {...pageProps} />
-                  <NextProgess />
-                  </CoinsProvider>
-          </SessionProvider>
+      <SessionProvider session={pageProps.session}>
+        <CoinsProvider>
+          <Header />
+          <Component {...pageProps} />
+          <NextProgess />
+        </CoinsProvider>
+      </SessionProvider>
     </ChakraProvider>   
   )
 }

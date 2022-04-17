@@ -6,7 +6,7 @@ import  {Flex, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
 import {BsArrowUp, BsArrowDown} from "react-icons/bs"
 import {FaRegListAlt} from "react-icons/fa"
 
-import { BuyButton } from "./BuyButton"
+import { BuyButton } from "../BuyButton"
 
 interface CoinProps {
     id: string,
@@ -36,7 +36,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                     </Flex>
                 </Td>
                 <Td w="100px" >U${current_price}</Td>
-            
+        
                     {price_change_percentage_24h > 0 ? 
                     
                         <Td w="50px" color="#1BAE2A">
@@ -56,8 +56,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                                 </Text>
                             </Flex>
                         </Td>
-                        }   
-                
+                    }   
                 <Td w="50px" >
                     <BuyButton
                         name={id}

@@ -1,7 +1,9 @@
-import { Flex, Text, Icon } from "@chakra-ui/react";
-import axios from "axios";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
+
+import axios from "axios";
+
+import { Flex, Text, Icon, useToast } from "@chakra-ui/react";
 
 interface CoinProps {
     name: string;
@@ -19,11 +21,30 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
         price_change_percentage_24h,
         current_price,
     }
+    //Toastfy mensage
+    const toast = useToast();
     //POST in faunaDB API 
     const handleCoinOnBank = async(coin: CoinProps)=>{
-        await axios.post("/api/create", coin)
-        router.reload()
-    }
+        try{
+            toast({
+                title: 'Your Purchase are OK!.',
+                description: `${name} was add in your bank.`,
+                status: 'success',
+                duration: 4000, //4 seconds
+                isClosable: true,
+            })
+            await axios.post("/api/create", coin)
+            router.reload()
+        } catch {
+            toast({
+                title: 'Sorry Your Purchase Failed.',
+                description: "We cant concluision your purchase, try again later.",
+                status: 'error',
+                duration: 4000, //4 seconds
+                isClosable: true,
+            })
+        };
+    };
     
     return(
         <Flex  

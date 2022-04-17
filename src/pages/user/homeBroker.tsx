@@ -12,8 +12,8 @@ import  {Flex, Image,Table, Text,Tbody, useMediaQuery, Box, Icon} from "@chakra-
 import { FaRegListAlt } from 'react-icons/fa'
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 
-import {SearchInput} from "../../components/SearchInput"
-import { TableCoin } from "../../components/TableCoins"
+import {SearchInput} from "../../components/HomeBroker/SearchInput"
+import { TableCoin } from "../../components/HomeBroker/TableCoins"
 import { BuyButton } from '../../components/BuyButton'
 
 interface CoinProps {
@@ -162,8 +162,7 @@ export default function HomeBroker({coins}:CoinsProps){
                             </Flex>
                         </Flex>
                         )}
-                    )}      
-                    
+                    )}        
                 </Box> 
                 }
             </Flex>
