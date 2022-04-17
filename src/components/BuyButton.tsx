@@ -12,17 +12,15 @@ interface CoinProps {
 
 export function BuyButton({name, image, current_price, price_change_percentage_24h}: CoinProps){ 
     const router = useRouter()
-
-
-    
+    //Data for POST in faunaDB API
     const coin = {
         name,
         image,
         price_change_percentage_24h,
         current_price,
     }
-
-     async function handleCoinOnBank(coin: CoinProps){
+    //POST in faunaDB API 
+    const handleCoinOnBank = async(coin: CoinProps)=>{
         await axios.post("/api/create", coin)
         router.reload()
     }

@@ -54,14 +54,13 @@ export function Card({name, image, price, price_change, quantify}:CoinProps){
               </Flex>
                     
               <Text>
-                  Buy Value: {price}
+                  Buy Value: U${price}
               </Text>
                         
               <Flex justify="space-around">
                   <Text>
                       Quantify:{quantify}
                   </Text>
-
                   <Flex w="100%" justify="space-around">      
                       <BuyButton 
                         name={name}
@@ -69,10 +68,7 @@ export function Card({name, image, price, price_change, quantify}:CoinProps){
                         current_price={price}
                         price_change_percentage_24h={price_change} 
                       />
-
-                      <SellButton name={name}/>
-                      
-                     
+                      <SellButton name={name}/> 
                   </Flex>
                 </Flex>
 

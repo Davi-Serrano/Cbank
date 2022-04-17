@@ -4,9 +4,9 @@ import { getSession } from "next-auth/react"
 import Head from "next/head"
 
 import { fauna } from "../../services/fauna"
-import { query as q } from "faunadb"
+import { CurrentToken, query as q } from "faunadb"
 
-import { Box, Flex, Icon } from "@chakra-ui/react"
+import { Box, Flex, Icon, styled } from "@chakra-ui/react"
 import {AiFillEye,  AiFillEyeInvisible} from "react-icons/ai" 
 
 import { Card } from "../../components/Card"
@@ -30,6 +30,13 @@ export default function bankCoins ({coins}: CoinsProps){
   const amount = coins.reduce( (acc, coin)=>{
     return acc + coin.current_price * coin.quantify
   }, 0);
+  console.log(amount)
+
+  const amountFormatted = new Intl.NumberFormat('en-US', {
+                                style: "currency", 
+                                currency: "USD", 
+                                minimumFractionDigits: 2,
+                              }).format(184568.610002)
 
   return (
     <>
@@ -49,9 +56,9 @@ export default function bankCoins ({coins}: CoinsProps){
             fontSize="22px"
             fontWeight="bold"
           >
-              Amount: U$ 
+              Amount:
                   <Box visibility={icon}>
-                    {amount.toFixed(2)}  
+                    U{amountFormatted}  
                   </Box>     
 
               {/* Verifiction if icon eyes is hidden or not */}                  

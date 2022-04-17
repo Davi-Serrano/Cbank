@@ -5,6 +5,7 @@ import { theme } from '../styles/theme'
 import { Header } from '../components/Header'
 import CoinsProvider from "../context/coins"
 import {SessionProvider } from "next-auth/react"
+import NextProgess from "nextjs-progressbar"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <CoinsProvider>
                   <Header />
                   <Component {...pageProps} />
+                  <NextProgess />
                   </CoinsProvider>
           </SessionProvider>
     </ChakraProvider>   

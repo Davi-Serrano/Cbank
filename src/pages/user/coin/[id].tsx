@@ -113,7 +113,7 @@ export default  function DataSCoin() {
   return(
     <>
       <Head>
-          <title> {id} | CBank</title>
+          <title>{id?.toString().toUpperCase()} | CBank</title>
       </Head>
     
       <SimpleGrid
