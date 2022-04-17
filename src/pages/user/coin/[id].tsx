@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import Head from "next/head";
 
 import { api } from '../../../services/api';
 
-import { Box, Flex, SimpleGrid, Text, Image,theme, Spinner } from '@chakra-ui/react'
+import { Box, Flex, SimpleGrid, Text, Image,theme, Spinner, Button } from '@chakra-ui/react';
+
 
 const Chart = dynamic(()=> import("react-apexcharts"),{
   ssr: false
@@ -109,6 +111,11 @@ export default  function DataSCoin() {
   };
 
   return(
+    <>
+      <Head>
+          <title> {id} | CBank</title>
+      </Head>
+    
       <SimpleGrid
           justifyItems="flex-start"
           minChildWidth="320px"
@@ -163,7 +170,7 @@ export default  function DataSCoin() {
                 </Flex>
                   
                 <Flex>
-                  <Text fontWeight="700">Preço :</Text>
+                  <Text fontWeight="700">Price :</Text>
                   <Text pl="0.2em">U$ {coin.market_data.current_price.usd.toFixed(2)}</Text>
                 </Flex>
                   
@@ -176,8 +183,20 @@ export default  function DataSCoin() {
                   <Text fontWeight="700">Cod :</Text>
                   <Text pl="1em">{coin.symbol.toUpperCase()}</Text>
                 </Flex>
-            </Box>       
+                {/* Button Back for last page */}
+                <Button 
+                  transition="0.5s"
+                  _hover={{
+                    cursor: "pointer",
+                    opacity: "0.2"
+                  }}
+                  onClick={()=> router.back()}
+                >
+                   BACK  
+                </Button> 
+            </Box>      
       </SimpleGrid>
+      </>
   )
 };
 

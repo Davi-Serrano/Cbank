@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { getSession } from "next-auth/react"
-import  Link  from "next/link"
+import Head from 'next/head'
+import  NextLink  from "next/link"
 
 import { api } from "../../services/api"
 import { useCoins }  from "../../context/coins"
@@ -57,117 +58,123 @@ export default function HomeBroker({coins}:CoinsProps){
     const [ isLargerThan1280 ] = useMediaQuery('(min-width: 1280px)');
 
     return(
-        <Flex
-            flexDir="column"
-            w="80%"
-            maxW="1280PX"
-            bg="#2C2C2C"
-            align='center'
-            justify="center"
-            m="auto"
-            mt="5%"
-            pb="2em"
-        >    
-            <SearchInput />
-            { isLargerThan1280 ? 
-            //Desktop Version
-            <Table w="80%" variant="unstyled" mt="3em">
-                <Tbody h="80vh">
-                    <AutoSizer>
-                        {({height, width})=>(
-                        <List 
-                            height={height}
-                            rowHeight={130}
-                            width={width}
-                            overscanRowCount={5}
-                            rowCount={filtredCoins.length}
-                            rowRenderer={rowRender}
-                        />
-                        )}
-                    </AutoSizer>                  
-                </Tbody>
-            </Table> 
-            : 
-            //Mobile Version
-            <Box>
-                {filtredCoins.map(coin=>{ return(
-                    <Flex 
-                        key={coin.id}
-                        flexDir="column"
-                        align='center'
-                        justify="center"
-                        w="80%"
-                        bg="#222222"
-                        borderRadius="16px"
-                        m="auto"
-                        mt="5%"
-                        pb="2em"
-                        >
-                        <Text
-                            as="h2" 
-                            align="center"
-                        >
-                            <Image src={coin.image} px="15px" h="50px" w="50px" alt="Coin icon" />
-                            {coin.name}
-                        </Text>
+        <>
+            <Head>
+                <title>HomeBroker | CBank</title>
+            </Head>
+
+            <Flex
+                flexDir="column"
+                w="80%"
+                maxW="1280PX"
+                bg="#2C2C2C"
+                align='center'
+                justify="center"
+                m="auto"
+                mt="5%"
+                pb="2em"
+            >    
+                <SearchInput />
+                { isLargerThan1280 ? 
+                //Desktop Version
+                <Table w="80%" variant="unstyled" mt="3em">
+                    <Tbody h="80vh">
+                        <AutoSizer>
+                            {({height, width})=>(
+                            <List 
+                                height={height}
+                                rowHeight={130}
+                                width={width}
+                                overscanRowCount={5}
+                                rowCount={filtredCoins.length}
+                                rowRenderer={rowRender}
+                            />
+                            )}
+                        </AutoSizer>                  
+                    </Tbody>
+                </Table> 
+                : 
+                //Mobile Version
+                <Box>
+                    {filtredCoins.map(coin=>{ return(
                         <Flex 
-                            w="100%"
-                            fontWeight="bold"
+                            key={coin.id}
+                            flexDir="column"
+                            align='center'
+                            justify="center"
+                            w="80%"
+                            bg="#222222"
+                            borderRadius="16px"
+                            m="auto"
+                            mt="5%"
+                            pb="2em"
                             >
-                            {coin.price_change_percentage_24h > 0 ?
-                                <Flex w="100%"  justify="space-around">
-                                    <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
-                                    <Text>U${coin.current_price}</Text> 
-                                </Flex>
-                                :
-                                <Flex w="100%" justify="space-around">
-                                    <Text color="red">
-                                    <Icon as={BsArrowDown}
-                                    color="white" 
-                                /> 
-                                     {coin.price_change_percentage_24h}
-                                    </Text>
-                                    <Text>U${coin.current_price}</Text> 
-                                </Flex>
-                            }
-                        </Flex>
-                        <Flex>       
-                            
-                        <BuyButton 
-                            name={coin.id}
-                            image={coin.image}
-                            current_price={coin.current_price}
-                            price_change_percentage_24h={coin.price_change_percentage_24h} 
-                        />              
-                            <Link key={coin.id} href={`/user/coin/${coin.id}`}>    
-                                <a>
-                                    <Flex
-                                        align="center"
-                                        ml="1em"
-                                    >
-                                        <Icon as={FaRegListAlt} color="white"/> 
-                                        <Text pl="0.2em" color="white">
-                                            Informartions
-                                        </Text>
+                            <Text
+                                as="h2" 
+                                align="center"
+                            >
+                                <Image src={coin.image} px="15px" h="50px" w="50px" alt="Coin icon" />
+                                {coin.name}
+                            </Text>
+                            <Flex 
+                                w="100%"
+                                fontWeight="bold"
+                                >
+                                {coin.price_change_percentage_24h > 0 ?
+                                    <Flex w="100%"  justify="space-around">
+                                        <Text color="green"><Icon as={BsArrowUp} color="white" /> {coin.price_change_percentage_24h}</Text>
+                                        <Text>U${coin.current_price}</Text> 
                                     </Flex>
-                                </a>
-                            </Link> 
-                        
+                                    :
+                                    <Flex w="100%" justify="space-around">
+                                        <Text color="red">
+                                        <Icon as={BsArrowDown}
+                                        color="white" 
+                                    /> 
+                                        {coin.price_change_percentage_24h}
+                                        </Text>
+                                        <Text>U${coin.current_price}</Text> 
+                                    </Flex>
+                                }
+                            </Flex>
+                            <Flex>       
+                                
+                            <BuyButton 
+                                name={coin.id}
+                                image={coin.image}
+                                current_price={coin.current_price}
+                                price_change_percentage_24h={coin.price_change_percentage_24h} 
+                            />              
+                                <NextLink key={coin.id}  href={`/user/coin/${coin.id}`} passHref>    
+                                    <a>
+                                        <Flex
+                                            align="center"
+                                            ml="1em"
+                                        >
+                                            <Icon as={FaRegListAlt} color="white"/> 
+                                            <Text pl="0.2em" color="white">
+                                                Informartions
+                                            </Text>
+                                        </Flex>
+                                    </a>
+                                </NextLink> 
+                            
+                            </Flex>
                         </Flex>
-                    </Flex>
-                    )}
-                 )}      
-                
-            </Box> 
-            }
-        </Flex>
+                        )}
+                    )}      
+                    
+                </Box> 
+                }
+            </Flex>
+        </>
     )
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async ({req})=>{
     const session = await getSession({req})
 
-    //Verfication if user has autorization, else go to login
+    //Verfication if user has autorization, else go to login page
     if(!session){
         return{
           redirect:{
@@ -175,9 +182,9 @@ export const getServerSideProps: GetServerSideProps = async ({req})=>{
             permanent: false
           }
         }
-    }
+    };
     //API get data
-    const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+    const response = await api.get("/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false");
     
     //Formated data for API
     const coins = response.data.map((coin: CoinProps) =>{
@@ -190,12 +197,13 @@ export const getServerSideProps: GetServerSideProps = async ({req})=>{
             price_change_percentage_24h: coin.price_change_percentage_24h.toFixed(2),
             current_price: coin.current_price.toFixed(2),
         }
-    })
+    });
+
     return {
       props:{
         coins
       }
-    }
+    };
 
 }
 

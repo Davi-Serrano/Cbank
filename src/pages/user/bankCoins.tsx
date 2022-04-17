@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
+import Head from "next/head"
 
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
@@ -31,6 +32,11 @@ export default function bankCoins ({coins}: CoinsProps){
   }, 0);
 
   return (
+    <>
+       <Head>
+            <title>Bank | CBank</title>
+        </Head>
+
     <Box
       mx="auto"
       mt="2em"
@@ -90,6 +96,7 @@ export default function bankCoins ({coins}: CoinsProps){
               )}                     
           </Flex>
     </Box>
+    </>
   )
 }
 

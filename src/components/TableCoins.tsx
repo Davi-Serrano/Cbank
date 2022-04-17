@@ -1,4 +1,4 @@
-import Link from "next/link"
+import NextLink from "next/link"
 
 import  {Flex, Td, Tr, Image, Text, Icon} from "@chakra-ui/react"
 
@@ -67,7 +67,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                     />
                 </Td>
                 <Td w="200px" >
-                    <Link key={id} href={`/user/coin/${id}`}>    
+                    <NextLink key={id} href={`/user/coin/${id}`} passHref>     
                         <a>
                             <Flex
                                 align="center"
@@ -82,7 +82,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                                 </Text>
                             </Flex>
                         </a>
-                    </Link> 
+                    </NextLink> 
                 </Td>
         </Tr>
    )   

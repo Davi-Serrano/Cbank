@@ -1,4 +1,4 @@
-import Link  from "next/link"
+import NextLink  from "next/link"
 import { Flex, Box ,Button, Image,Text, Icon} from "@chakra-ui/react";
 import { IoMdArrowDropdown } from "react-icons/io"
 
@@ -6,7 +6,7 @@ import {Logo} from "./Logo"
 import { SingInButton } from "./SingInButton";
 
 import { useSession, signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 export  function Header() {
@@ -63,7 +63,7 @@ export  function Header() {
                         borderBottom="2px solid gray"
                         onClick={()=>setHidden("none")}
                         >
-                        <Link href="/user/bankCoins"> Bank </Link>
+                        <NextLink href="/user/bankCoins" passHref> Bank </NextLink>
                       </Box>
                      
                       <Box
@@ -71,7 +71,7 @@ export  function Header() {
                         w="100%"borderBottom="2px solid gray"
                         onClick={()=>setHidden("none")}
                         >
-                        <Link href="/user/homeBroker"> HomeBroker </Link>
+                        <NextLink href="/user/homeBroker" passHref> HomeBroker </NextLink>
                       </Box>
                      
                       <Box textAlign="center" w="100%">
