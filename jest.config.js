@@ -1,10 +1,13 @@
 module.exports = {
-    testIgnorePatterns: ["/node_modules", "/.next/"],
-    setupFiles: [
+    testPathIgnorePatterns: ["/node_modules/", "/.next/"],
+    setupFilesAfterEnv: [
         "<rootDir>/src/tests/setupTests.ts"
     ],
-    transform: {
-        "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
+    transform : {
+        '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest'
     },
-    testEnvironment: "jsdom"
+    moduleNameMapper: {
+        "\\.(css|scss|sass)$": "identity-obj-proxy"
+    },
+    testEnvironment: 'jsdom'
 };
