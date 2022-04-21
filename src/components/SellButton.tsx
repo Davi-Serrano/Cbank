@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import axios from "axios";
 
-import { Flex, Icon, useToast } from "@chakra-ui/react";
+import { Flex, Icon, theme, useToast } from "@chakra-ui/react";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 interface CoinProps{
@@ -18,9 +18,9 @@ export function SellButton({name}: CoinProps){
       toast({
         title: 'Your Sale are OK!.',
         description: `${name} was sold with success.`,
-        status: 'info',
+        status: 'success',
         duration: 4000, //4 seconds
-        isClosable: true,
+        isClosable: true, 
       })
       await axios.post("/api/delete", {name})
       router.reload()
