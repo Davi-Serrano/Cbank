@@ -107,7 +107,7 @@ export default function bankCoins ({coins}: CoinsProps){
 
 export const getServerSideProps: GetServerSideProps =  async ({req})=>{
   const session:any = await getSession({req})
-  //Verifcion if user is logged, else redirect to home
+  //Verifcion if user is logged, else redirect to home.
   if(!session){
     return{
       redirect:{
@@ -116,7 +116,7 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
       }
     }
   }
-  //Get the data on faunadb
+  //Get the data on faunadb.
   const user = await fauna.query<any>(
     q.Get(
         q.Match(
@@ -125,17 +125,19 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
         )
     )
   );
-  //Verification if user has coin on the bank
-  if(user.data.coin_id | user.data.coin_id.length > 0 ){
-    const coins = user.data.coin_id
-    
-    return{
-      props:{
+  //Verification if user has coin on the bank, else redirect to home.
+  if(user.data.coin_id){
+    if(user.data.coin_id.length > 0){
+      const coins = user.data.coin_id
+
+      return{
+        props:{
         coins,
       }        
     }
+  }
   };
-  //If user haven´t coin on the bank redirect for homeBroker
+  //If user haven´t coin on the bank redirect for homeBroker.
   return {
     redirect:{
       destination: "/user/homeBroker",
