@@ -81,7 +81,7 @@ export function CardCoins({id, symbol, name, image, total_volume, price_change_p
                         >
                             <Icon as={FaRegListAlt} color="white"/> 
                             <Text pl="0.2em" color="white">
-                                Informartions
+                                Informations
                             </Text>
                         </Flex>
                     </a>

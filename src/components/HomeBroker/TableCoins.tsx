@@ -79,7 +79,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
                             >
                             <Icon as={FaRegListAlt} /> 
                             <Text pl="0.2em">
-                                Informartions
+                                Informations
                             </Text>
                         </Flex>
                     </a>
