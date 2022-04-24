@@ -113,14 +113,6 @@ interface User{
   }
 }
 
-declare module "next-auth" {
-  interface Session {
-    user:{
-      email: string;  
-    }
-  }
-}
-
 export const getServerSideProps: GetServerSideProps =  async ({req})=>{
   const session: Session | null = await getSession({req})
   //Verifcion if user is logged, else redirect to home.
@@ -131,7 +123,7 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
         permanent: false
       }
     }
-  }
+  };
   //Get the data on faunadb.
   const user = await fauna.query<User>(
     q.Get(

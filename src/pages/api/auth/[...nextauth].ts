@@ -10,6 +10,14 @@ interface User {
   } 
 };
 
+declare module "next-auth" {
+  interface Session {
+    user:{
+      email: string;  
+    }
+  }
+}
+
 export default NextAuth({
   //Configuration of providers 
   providers: [
