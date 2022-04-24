@@ -10,6 +10,7 @@ import { Box, Flex, Icon} from "@chakra-ui/react"
 import {AiFillEye,  AiFillEyeInvisible} from "react-icons/ai" 
 
 import { Card } from "../../components/Card"
+import { Session } from "next-auth"
 
 interface CoinProps{
     name: string;
@@ -42,6 +43,7 @@ export default function bankCoins ({coins}: CoinsProps){
        <Head>
             <title>Bank | CBank</title>
         </Head>
+
         <Box
           mx="auto"
           mt="2em"
@@ -105,8 +107,22 @@ export default function bankCoins ({coins}: CoinsProps){
   )
 }
 
+interface User{
+  data:{
+    coin_id: CoinProps[];
+  }
+}
+
+declare module "next-auth" {
+  interface Session {
+    user:{
+      email: string;  
+    }
+  }
+}
+
 export const getServerSideProps: GetServerSideProps =  async ({req})=>{
-  const session:any = await getSession({req})
+  const session: Session | null = await getSession({req})
   //Verifcion if user is logged, else redirect to home.
   if(!session){
     return{
@@ -117,7 +133,7 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
     }
   }
   //Get the data on faunadb.
-  const user = await fauna.query<any>(
+  const user = await fauna.query<User>(
     q.Get(
         q.Match(
             q.Index('user_by_email'),
