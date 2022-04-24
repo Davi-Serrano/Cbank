@@ -7,7 +7,6 @@ import { api } from '../../../services/api';
 
 import { Box, Flex, SimpleGrid, Text, Image,theme, Spinner, Button } from '@chakra-ui/react';
 
-
 const Chart = dynamic(()=> import("react-apexcharts"),{
   ssr: false
 });
@@ -92,10 +91,15 @@ export default  function DataSCoin() {
 
   });
   //Get in the API for coin informations
-  useEffect (async()=>{
+  useEffect (()=>{
+    const getAPICoinDatas = async ()=>{
+
     const { data } = await api.get(`https://api.coingecko.com/api/v3/coins/${id}/history?date=${today}&localization=false`)
     //Set on the coin the informations
     setCoin(data)
+    }
+
+    getAPICoinDatas();
   }, []);
   //Loading display waiting for API GET
   while(coin.id === "null"){
