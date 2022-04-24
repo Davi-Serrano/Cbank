@@ -18,7 +18,7 @@ export function SellButton({name}: CoinProps){
       toast({
         title: 'Your Sale are OK!.',
         description: `${name} was sold with success.`,
-        status: 'success',
+        status: 'error',
         duration: 4000, //4 seconds
         isClosable: true, 
       })

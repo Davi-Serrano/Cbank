@@ -117,14 +117,14 @@ export default  function DataSCoin() {
       </Head>
     
       <SimpleGrid
-          justifyItems="flex-start"
-          minChildWidth="320px"
-          bg="#2C2C2C"     
-          h="450px"
-          mx={["0em", "1em"]}
-          mt="2em"
-          p="2em"
-        >
+        justifyItems="flex-start"
+        minChildWidth="320px"
+        bg="#2C2C2C"     
+        h="450px"
+        mx={["0em", "1em"]}
+        mt="2em"
+        p="2em"
+      >
             {/* Coin image and chart */}
             <Flex
               flexDir="column"
@@ -141,10 +141,7 @@ export default  function DataSCoin() {
                 >
                     <Image src={coin.image.small} height='80px' width='80px' alt="Coin icon" /> 
                     <Text fontSize={25} textTransform="capitalize" >  
-                        <Text fontWeight="bold">
-                            {coin.id} :
-                        </Text> 
-                        U${coin.market_data.current_price.usd.toFixed(2)}
+                            <b> {coin.id} </b> : U${coin.market_data.current_price.usd.toFixed(2)}
                     </Text>
                 </Flex>
                 {/* Chart display */}
