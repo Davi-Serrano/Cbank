@@ -19,6 +19,7 @@ declare module "next-auth" {
 }
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET 
   //Configuration of providers 
   providers: [
     //Github
