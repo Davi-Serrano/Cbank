@@ -26,7 +26,7 @@ interface CoinsProps {
 
 export default function bankCoins ({coins}: CoinsProps){
   //State of Icon. 
-  const [icon, setIcon]= useState<DocumentVisibilityState>("hidden");
+  const [IconEyes, setIcon]= useState<DocumentVisibilityState>("hidden");
   //Calculate amount of coins value.
   const amount = coins.reduce( (acc, coin)=>{
     return acc + coin.current_price * coin.quantify
@@ -78,12 +78,12 @@ export default function bankCoins ({coins}: CoinsProps){
                 fontWeight="bold"
               >
                   Amount:
-                      <Box visibility={icon}>
+                      <Box visibility={IconEyes}>
                         U{amountFormatted}  
                       </Box>     
 
                   {/* Verifiction if icon eyes is hidden or not */}                  
-                  { icon === "hidden" ? 
+                  { IconEyes === "hidden" ? 
                     <Icon as={AiFillEye} 
                         px="0.5em"
                         onClick={()=> setIcon("visible")}
