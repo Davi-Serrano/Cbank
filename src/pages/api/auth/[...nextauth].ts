@@ -34,7 +34,7 @@ export default NextAuth({
   ],
   //When user signIn callback function is called
   callbacks: {
-    async signIn({user}: User){
+    async signIn({user}: any){
       const  { email } = user
       //Save on faunaDB the user email 
         try{
