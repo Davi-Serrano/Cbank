@@ -6,7 +6,7 @@ import Head from "next/head"
 import { fauna } from "../../services/fauna"
 import { query as q } from "faunadb"
 
-import { Box, Flex, Icon} from "@chakra-ui/react"
+import { Box, Flex, Text,Icon} from "@chakra-ui/react"
 import {AiFillEye,  AiFillEyeInvisible} from "react-icons/ai" 
 
 import { Card } from "../../components/Card"
@@ -15,7 +15,7 @@ import { Session } from "next-auth"
 interface CoinProps{
     name: string;
     image: string;
-    current_price: number,
+    current_price: number;
     price_change_percentage_24h:number 
     quantify:number;
 };
@@ -25,19 +25,40 @@ interface CoinsProps {
 };
 
 export default function bankCoins ({coins}: CoinsProps){
-  //State of Icon 
+  //State of Icon. 
   const [icon, setIcon]= useState<DocumentVisibilityState>("hidden");
-  //Calculate amount of coins value
+  //Calculate amount of coins value.
   const amount = coins.reduce( (acc, coin)=>{
     return acc + coin.current_price * coin.quantify
   }, 0);
-  //Formatted amount 
+  //Formatted amount.
   const amountFormatted = new Intl.NumberFormat('en-US', {
                                   style: "currency", 
                                   currency: "USD", 
                                   minimumFractionDigits: 2,
                                 }).format(amount);
+  //If user dont have any coin in bank. 
+  if(coins.length === 0){
+    return(
+      <>
+        <Head>
+            <title>Bank | CBank</title>
+        </Head>
+        
+            <Flex
+                justify="center"
+                align="center"
+                fontSize="large"
+                fontWeight="bold"
+              >
 
+                <Text>When you buy a coin it will display here.</Text>
+              </Flex>
+      
+      </>
+    )
+  }                           
+//If user have any coin in bank. 
   return (
     <>
        <Head>
@@ -145,11 +166,10 @@ export const getServerSideProps: GetServerSideProps =  async ({req})=>{
     }
   }
   };
-  //If user haven´t coin on the bank redirect for homeBroker.
+  //If user haven´t coin on the bank show a messager.
   return {
-    redirect:{
-      destination: "/user/homeBroker",
-      permanent: false
-    }
+    props:{
+      coins: []
+    }        
   };
 };

@@ -15,6 +15,7 @@ export function SellButton({name}: CoinProps){
   //Delete coins in FaunaDB API 
   const handleDeleteCoin = async (name:string)=>{
     try{
+      await axios.post("/api/delete", {name})
       toast({
         title: 'Your Sale are OK!.',
         description: `${name} was sold with success.`,
@@ -22,8 +23,7 @@ export function SellButton({name}: CoinProps){
         duration: 4000, //4 seconds
         isClosable: true, 
       })
-      await axios.post("/api/delete", {name})
-      router.reload()
+      router.reload();
     }catch{
       toast({
         title: 'Sorry Your Sale Failed!',
@@ -32,6 +32,7 @@ export function SellButton({name}: CoinProps){
         duration: 4000, //4 seconds
         isClosable: true,
       })
+      router.reload();
     }
   }
     

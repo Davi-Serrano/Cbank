@@ -26,6 +26,7 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
     //POST in faunaDB API 
     const handleCoinOnBank = async(coin: CoinProps)=>{
         try{
+            await axios.post("/api/create", coin)
             toast({
                 title: 'Your Purchase are OK!.',
                 description: `${name} was add in your bank.`,
@@ -33,8 +34,7 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
                 duration: 4000, //4 seconds
                 isClosable: true,
             })
-            await axios.post("/api/create", coin)
-            router.reload()
+            router.reload();
         } catch {
             toast({
                 title: 'Sorry Your Purchase Failed.',
@@ -43,6 +43,7 @@ export function BuyButton({name, image, current_price, price_change_percentage_2
                 duration: 4000, //4 seconds
                 isClosable: true,
             })
+            router.reload();
         };
     };
     

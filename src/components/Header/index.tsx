@@ -63,7 +63,8 @@ export  function Header() {
                                 transition="0.5s"
                                 _hover={{
                                 cursor:"pointer",
-                                opacity: "0.5"
+                                opacity: "0.5",
+                                text: "dasdasdsa"
                                 }}
                                 onClick={()=>setHidden("none")}
                                 >
