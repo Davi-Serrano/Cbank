@@ -24,7 +24,7 @@ interface CoinsProps {
   coins: CoinProps[];
 };
 
-export default function bankCoins ({coins}: CoinsProps){
+export default function BankCoins ({coins}: CoinsProps){
   //State of Icon. 
   const [IconEyes, SetIcon] = useState<DocumentVisibilityState>("hidden");
   //Calculate amount of coins value.
