@@ -29,7 +29,7 @@ export function TableCoin({id, symbol, name, image, total_volume, price_change_p
             {/* Image and Coin name */}
             <Td w="200px">
                 <Flex align="center">
-                    <Image src={image} w="50px" />
+                    <Image src={image} w="50px" alt="Icon coin" />
                     <Text pl="1em">{name}</Text>
                 </Flex>
             </Td>

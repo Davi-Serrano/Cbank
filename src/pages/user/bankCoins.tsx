@@ -26,7 +26,7 @@ interface CoinsProps {
 
 export default function bankCoins ({coins}: CoinsProps){
   //State of Icon. 
-  const [IconEyes, setIcon]= useState<DocumentVisibilityState>("hidden");
+  const [IconEyes, SetIcon] = useState<DocumentVisibilityState>("hidden");
   //Calculate amount of coins value.
   const amount = coins.reduce( (acc, coin)=>{
     return acc + coin.current_price * coin.quantify
@@ -86,7 +86,7 @@ export default function bankCoins ({coins}: CoinsProps){
                   { IconEyes === "hidden" ? 
                     <Icon as={AiFillEye} 
                         px="0.5em"
-                        onClick={()=> setIcon("visible")}
+                        onClick={()=> SetIcon("visible")}
                         _hover={{
                           cursor: "pointer"
                         }}
@@ -94,7 +94,7 @@ export default function bankCoins ({coins}: CoinsProps){
                       :
                     <Icon as={AiFillEyeInvisible} 
                       px="0.5em"
-                      onClick={()=> setIcon("hidden")}
+                      onClick={()=> SetIcon("hidden")}
                       _hover={{
                         cursor: "pointer"
                       }}

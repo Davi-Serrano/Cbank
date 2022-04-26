@@ -33,7 +33,7 @@ export  function Header() {
                     cursor: "pointer"
                     }}
                 >
-                    <Image src={session?.user?.image} w="30px" borderRadius="100%" />
+                    <Image src={session?.user?.image} w="30px" borderRadius="100%" alt="User image" />
                     <Text px="0.5em"> {session?.user?.name}</Text>
                     <Icon as={IoMdArrowDropdown}
                         fontSize="30px" 
