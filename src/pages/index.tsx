@@ -16,6 +16,7 @@ export default function Home() {
       fontWeight="bold"
       border="3px solid #707070"
       borderRadius="16px"
+      minW="300px"
       w="35%"
       h="400px"
       m="auto"

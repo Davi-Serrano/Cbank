@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, ReactNode} from "react"
+import React, { useState, createContext, useContext } from "react"
 
 export const CoinsContext = createContext({} as SearchContextProps);
 

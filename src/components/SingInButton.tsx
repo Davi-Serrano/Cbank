@@ -1,9 +1,8 @@
 import { Button, Text } from "@chakra-ui/react";
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { DiGithubBadge } from "react-icons/di";
 
 export function SingInButton(){
-    const {data: session} = useSession()
 
     return(
     
@@ -13,7 +12,7 @@ export function SingInButton(){
         border="none"
         borderRadius="10px"
         m="auto"
-        px="2em"
+        px={["0.5em","2em"]}
         onClick={()=> signIn('github')} 
         _hover={{
                 cursor:"pointer",
