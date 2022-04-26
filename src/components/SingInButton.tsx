@@ -14,7 +14,7 @@ export function SingInButton(){
         borderRadius="10px"
         m="auto"
         px="2em"
-        onClick={()=> signIn()} 
+        onClick={()=> signIn('github')} 
         _hover={{
                 cursor:"pointer",
                 bg:"#999999"
